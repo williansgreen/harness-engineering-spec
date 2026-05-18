@@ -1,0 +1,28 @@
+{
+  "project": "replace-with-project-name",
+  "last_updated": "YYYY-MM-DD",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "features": [
+    {
+      "id": "feat-001",
+      "priority": 1,
+      "area": "core",
+      "title": "Replace with feature title",
+      "user_visible_behavior": "Describe the observable behavior.",
+      "status": "not_started",
+      "dependencies": [],
+      "verification": [
+        "Build succeeds.",
+        "Relevant tests pass.",
+        "Manual or substitute verification is recorded."
+      ],
+      "evidence": [],
+      "notes": ""
+    }
+  ]
+}
+

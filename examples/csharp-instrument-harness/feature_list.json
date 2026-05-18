@@ -1,0 +1,45 @@
+{
+  "project": "csharp-instrument-harness-example",
+  "last_updated": "2026-05-18",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "features": [
+    {
+      "id": "arch-001",
+      "priority": 1,
+      "area": "architecture",
+      "title": "Create formal solution structure",
+      "user_visible_behavior": "Developers can build a C# desktop instrument app with separated UI, Application, Domain, Devices, and tests.",
+      "status": "not_started",
+      "dependencies": [],
+      "verification": [
+        "Create .sln with src and tests projects.",
+        "Run dotnet build.",
+        "Run dotnet test."
+      ],
+      "evidence": [],
+      "notes": "Use csharp-winforms-wpf references/solution-structure.md."
+    },
+    {
+      "id": "device-001",
+      "priority": 2,
+      "area": "devices",
+      "title": "Add simulated device service",
+      "user_visible_behavior": "The app can run and test the main workflow without real hardware.",
+      "status": "not_started",
+      "dependencies": [
+        "arch-001"
+      ],
+      "verification": [
+        "Simulated device supports connect, status, start, stop, timeout, and cancellation.",
+        "Device tests cover normal and error paths."
+      ],
+      "evidence": [],
+      "notes": "Use csharp-winforms-wpf references/instrument-device-validation.md."
+    }
+  ]
+}
+

@@ -1,0 +1,28 @@
+{
+  "project": "minimal-harness-example",
+  "last_updated": "2026-05-18",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "features": [
+    {
+      "id": "docs-001",
+      "priority": 1,
+      "area": "harness",
+      "title": "Provide minimal harness files",
+      "user_visible_behavior": "A new session can understand the project, check status, and run the harness audit.",
+      "status": "passing",
+      "dependencies": [],
+      "verification": [
+        "Run scripts/check-harness.ps1 against this directory."
+      ],
+      "evidence": [
+        "Expected command: powershell -ExecutionPolicy Bypass -File ..\\..\\scripts\\check-harness.ps1 -TargetPath ."
+      ],
+      "notes": "Documentation-only example."
+    }
+  ]
+}
+

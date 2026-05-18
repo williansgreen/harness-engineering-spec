@@ -1,0 +1,56 @@
+{
+  "name": "harness-engineering-spec-evals",
+  "version": "0.1.0",
+  "tasks": [
+    {
+      "id": "generic-adoption-001",
+      "area": "generic-harness",
+      "prompt": "Adopt a minimal harness into an existing repository without changing application code.",
+      "expected_references": [
+        "docs/08-adoption-guide.md",
+        "templates/AGENTS.md",
+        "templates/feature_list.json",
+        "scripts/install-harness.ps1",
+        "scripts/check-harness.ps1"
+      ],
+      "pass_criteria": [
+        "Does not overwrite project-specific files without explicit force.",
+        "Creates or recommends required harness files.",
+        "Runs or documents harness check."
+      ]
+    },
+    {
+      "id": "csharp-new-project-001",
+      "area": "csharp-winforms-wpf",
+      "prompt": "Use $csharp-winforms-wpf to create a formal C# WPF instrument app skeleton with simulated device support.",
+      "expected_references": [
+        "references/solution-structure.md",
+        "references/wpf-mvvm.md",
+        "references/instrument-device-validation.md",
+        "references/dependency-injection-startup.md",
+        "references/csharp-acceptance-checklist.md"
+      ],
+      "pass_criteria": [
+        "Uses .sln, src, and tests.",
+        "Adds simulated device path.",
+        "Runs or clearly blocks build and tests."
+      ]
+    },
+    {
+      "id": "csharp-review-001",
+      "area": "csharp-winforms-wpf",
+      "prompt": "Use $csharp-winforms-wpf to review a WinForms MainForm for Designer safety.",
+      "expected_references": [
+        "references/winforms-mvp.md",
+        "references/designer-xaml-rules.md",
+        "references/csharp-acceptance-checklist.md"
+      ],
+      "pass_criteria": [
+        "Findings lead the response.",
+        "Flags runtime-built fixed UI.",
+        "Flags device or DI dependencies in designer path."
+      ]
+    }
+  ]
+}
+

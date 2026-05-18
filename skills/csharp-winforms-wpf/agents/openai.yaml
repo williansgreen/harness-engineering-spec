@@ -1,0 +1,5 @@
+interface:
+  display_name: "C# WinForms/WPF"
+  short_description: "C# desktop app harness and UI rules"
+  default_prompt: "Use $csharp-winforms-wpf to plan or implement a C# WinForms/WPF desktop instrument app."
+
