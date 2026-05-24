@@ -25,6 +25,7 @@
       "prompt": "Use $csharp-winforms-wpf to create a formal C# WPF instrument app skeleton with simulated device support.",
       "expected_references": [
         "references/solution-structure.md",
+        "references/project-setup-ci.md",
         "references/wpf-mvvm.md",
         "references/instrument-device-validation.md",
         "references/dependency-injection-startup.md",
@@ -32,6 +33,7 @@
       ],
       "pass_criteria": [
         "Uses .sln, src, and tests.",
+        "Explains target framework and platform strategy.",
         "Adds simulated device path.",
         "Runs or clearly blocks build and tests."
       ]
@@ -43,6 +45,7 @@
       "expected_references": [
         "references/winforms-mvp.md",
         "references/designer-xaml-rules.md",
+        "references/feature-validation-checklists.md",
         "references/csharp-acceptance-checklist.md"
       ],
       "pass_criteria": [
@@ -53,4 +56,3 @@
     }
   ]
 }
-

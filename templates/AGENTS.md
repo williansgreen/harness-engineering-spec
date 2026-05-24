@@ -24,10 +24,12 @@ Before writing code:
 ## Required Artifacts
 
 - `feature_list.json`: feature state and verification evidence.
+- `feature-list.schema.json`: machine-readable feature state contract.
 - `progress.md`: session progress and known risks.
 - `session-handoff.md`: restart path for the next session.
 - `harness/`: real build, run, test, and quality commands.
 - `clean-state-checklist.md`: end-of-session checklist.
+- `evals/benchmark-record.md`: benchmark and forward-test results when harness or skill behavior is evaluated.
 
 ## Definition of Done
 
@@ -35,7 +37,7 @@ A feature is done when:
 
 - Implementation is complete.
 - Required verification has passed.
-- Evidence is recorded.
+- Structured evidence is recorded in `feature_list.json`.
 - Known gaps are documented.
 - The next session can continue from repository files alone.
 
@@ -47,5 +49,5 @@ Before ending:
 2. Update progress.
 3. Write handoff notes.
 4. Record blockers and risks.
-5. Leave the repository in a restartable state.
-
+5. Record benchmark or forward-test results when this session evaluated harness behavior.
+6. Leave the repository in a restartable state.

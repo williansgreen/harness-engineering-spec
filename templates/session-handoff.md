@@ -4,7 +4,7 @@
 
 - Known working behavior:
 - Commands actually run:
-- Evidence:
+- Structured evidence recorded in `feature_list.json`:
 
 ## Changed This Session
 
@@ -30,4 +30,3 @@
 - Run:
 - Test:
 - Targeted debug:
-

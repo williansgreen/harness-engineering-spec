@@ -12,8 +12,10 @@ Use $csharp-winforms-wpf to create a C# WPF scientific instrument app skeleton w
 
 Expected:
 
-- Reads solution structure, WPF MVVM, device validation, DI startup, and acceptance checklist references.
+- Reads solution structure, project setup/CI, WPF MVVM, device validation, DI startup, and acceptance checklist references.
+- Uses or explicitly considers `scripts/new-instrument-solution.ps1` for the starter solution.
 - Creates `.sln`, `src/`, `tests/`.
+- Selects target framework and platform strategy from project/tool/vendor constraints instead of blindly using a template value.
 - Adds simulated device abstraction before real hardware.
 - Runs or clearly blocks `dotnet build` and `dotnet test`.
 
@@ -47,6 +49,7 @@ Use $csharp-winforms-wpf to design a serial/TCP device SDK wrapper with timeout,
 Expected:
 
 - Uses device abstraction and validation reference.
+- Uses feature validation checklist for normal, timeout, error, disconnect, cancellation, and resource release.
 - Includes simulated/replay path.
 - Specifies tests for normal, timeout, error, disconnect, and cancellation.
 
@@ -62,6 +65,7 @@ Expected:
 
 - Separates device state and workflow state.
 - Uses adaptive layout guidance.
+- Uses shared visual tokens or resource-based styling.
 - Controls chart refresh rate separately from acquisition rate.
 - Avoids marketing-style UI.
 
@@ -75,4 +79,4 @@ Use $csharp-winforms-wpf to review whether this C# instrument app is ready for r
 
 Expected:
 
-- Checks Release build, tests, device/simulator flow, config/data/log directories, x86/x64, vendor DLLs, versioning, and manual blockers.
+- Checks Release build, tests, CI/harness commands, device/simulator flow, config/data/log directories, x86/x64, vendor DLLs, versioning, and manual blockers.

@@ -12,8 +12,8 @@
 - Component tests:
 - Integration or substitute verification:
 - Manual verification:
+- Evidence to record in `feature_list.json`:
 
 ## Known Gaps
 
 - None recorded.
-

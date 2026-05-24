@@ -25,6 +25,9 @@ Harness 文件不是普通说明文档，它们是 agent 的运行契约。
 
 - 功能状态。
 - 优先级。
+- 风险级别。
+- 是否依赖真实硬件。
+- 模拟、mock 或协议回放策略。
 - 验证要求。
 - 验证证据。
 - 依赖关系。
@@ -34,6 +37,22 @@ Harness 文件不是普通说明文档，它们是 agent 的运行契约。
 - 同时只能有一个 `in_progress`，除非项目明确支持并行工作。
 - `passing` 必须有 evidence。
 - `blocked` 必须说明 blocker 和下一步。
+- evidence 优先使用结构化对象，至少包含 `type`、`result` 和 `notes`。
+- C# 仪器功能应记录 `hardware_required`、`simulation_strategy`、`platform_bitness` 和数据留存影响。
+
+## feature-list.schema.json
+
+职责：
+
+- 约束 `feature_list.json` 的基本结构。
+- 固定 feature 状态、风险级别和 evidence 结果枚举。
+- 给 `check-harness.ps1`、编辑器和其他工具提供机器可读契约。
+
+规则：
+
+- schema 应跟随 `feature_list.json` 一起复制到项目根目录。
+- 修改 feature 字段时，同步更新 schema 和 harness 检查脚本。
+- 不要把项目进度写进 schema。
 
 ## progress.md
 
@@ -72,4 +91,3 @@ Harness 文件不是普通说明文档，它们是 agent 的运行契约。
 - 命令必须能复制执行。
 - 示例命令不能冒充项目真实命令。
 - 环境缺口必须记录。
-

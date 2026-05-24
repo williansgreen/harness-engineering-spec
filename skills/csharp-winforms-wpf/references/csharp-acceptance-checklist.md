@@ -8,9 +8,16 @@ Use this checklist before declaring a formal C# WinForms/WPF project initialized
 - [ ] `src/` exists.
 - [ ] `tests/` exists.
 - [ ] Formal project includes UI, Application, Domain, Devices, Infrastructure.
+- [ ] Project names and solution naming are coherent.
+- [ ] `.editorconfig` exists or the project records why not.
+- [ ] `Directory.Build.props` exists for formal projects.
+- [ ] `Directory.Packages.props` exists when central package management is used.
 - [ ] Platform strategy is explicit: AnyCPU, x86, or x64.
+- [ ] Platform strategy matches vendor SDK bitness when a vendor SDK is used.
 - [ ] WPF project has `<UseWPF>true</UseWPF>` when applicable.
 - [ ] WinForms project has `<UseWindowsForms>true</UseWindowsForms>` when applicable.
+- [ ] Target framework is supported by installed SDKs, Visual Studio/Build Tools, vendor SDKs, and deployment machines.
+- [ ] CI does not depend on real hardware.
 
 ## Boundaries
 
@@ -26,9 +33,15 @@ Use this checklist before declaring a formal C# WinForms/WPF project initialized
 - [ ] WinForms uses MVP.
 - [ ] WinForms fixed shell is Designer-visible.
 - [ ] WinForms forms and user controls have designer-safe parameterless constructors.
+- [ ] WinForms fixed layout avoids loops, runtime conditions, service calls, and helper-built whole-window layout in `.Designer.cs`.
+- [ ] WinForms dynamic controls mount into stable designer-created containers.
 - [ ] WPF fixed shell is XAML-based.
+- [ ] WPF uses adaptive layout containers instead of `Canvas` for normal resizable app layout.
+- [ ] WPF reused colors, spacing, typography, and templates live in resources.
+- [ ] WPF ViewModels implement state and commands without directly accessing controls.
 - [ ] WPF ViewModels do not directly access controls or real device SDKs.
 - [ ] UI does not block on device communication.
+- [ ] Core UI has no obvious clipped text, overlapping controls, or unreachable actions at the project's target sizes.
 - [ ] Runtime visual check ran when environment allowed it.
 
 ## Devices And Data
@@ -36,8 +49,11 @@ Use this checklist before declaring a formal C# WinForms/WPF project initialized
 - [ ] Device abstraction exists.
 - [ ] Simulated, mock, or replay device path exists.
 - [ ] Communication supports timeout and cancellation.
+- [ ] Communication tests or substitutes cover normal response, timeout, error response, disconnect, and cancellation.
 - [ ] Data save includes raw data and metadata when required.
 - [ ] Schema/software/algorithm/report versions are recorded when data is long-lived.
+- [ ] Data processing uses fixed samples, expected outputs, and tolerance when applicable.
+- [ ] Workflow/state-machine features cover legal transitions, illegal transitions, repeated clicks, stop/cancel, and failure recovery.
 
 ## Logging And Exceptions
 
@@ -55,4 +71,4 @@ Use this checklist before declaring a formal C# WinForms/WPF project initialized
 - [ ] `dotnet build` passes or blocker is recorded.
 - [ ] `dotnet test` passes or blocker is recorded.
 - [ ] Harness docs contain real build, run, test, and quality commands.
-
+- [ ] Release readiness records config/log/data directories, vendor DLLs or drivers, target platform, and manual blockers.

@@ -2,6 +2,8 @@
 
 Use this reference when initializing or restructuring a C# WinForms/WPF desktop project.
 
+For target frameworks, platform bitness, shared build files, package versions, and CI, also use `project-setup-ci.md`.
+
 ## Formal Project Default
 
 ```text
@@ -43,8 +45,10 @@ Rules:
 
 - Create `.sln`.
 - Create `src/` and `tests/`.
+- For a new formal starter, use `scripts/new-instrument-solution.ps1` when its defaults match the target framework, UI framework, and platform bitness.
 - Add `.gitignore`, `.gitattributes`, `.editorconfig`.
 - Add `Directory.Build.props`; add `Directory.Packages.props` if central package management is useful.
+- Record target framework, installed SDK assumptions, Visual Studio/Build Tools requirements, and x86/x64/AnyCPU strategy.
 - Add logging and configuration policy.
 - Add simulated devices before depending on real hardware.
 - Write build, run, test, and quality commands to harness docs.
@@ -59,4 +63,3 @@ Use a single project or fewer layers for:
 - Experiments that do not touch real devices or retained data.
 
 Still keep core logic testable and avoid putting device calls in forms, windows, or view models.
-

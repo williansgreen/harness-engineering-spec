@@ -10,8 +10,10 @@
 ## State
 
 - [ ] Feature state is tracked.
+- [ ] `feature-list.schema.json` exists or an equivalent state contract is documented.
 - [ ] There is at most one active feature.
-- [ ] Passing features include evidence.
+- [ ] Passing features include structured evidence.
+- [ ] High-risk features record risk level, hardware need, and simulation strategy.
 - [ ] Progress or session log exists.
 - [ ] Handoff file exists for long-running work.
 
@@ -45,4 +47,3 @@ Score each subsystem 1-5:
 | Verification |  |  |
 | Scope |  |  |
 | Lifecycle |  |  |
-

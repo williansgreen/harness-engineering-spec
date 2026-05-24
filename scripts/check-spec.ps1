@@ -46,6 +46,23 @@ foreach ($file in $jsonFiles) {
     Test-JsonFile $file.FullName
 }
 
+$requiredSpecFiles = @(
+    "docs/13-evaluation-records.md",
+    "templates/benchmark-record.md",
+    "templates/feature-list.schema.json",
+    "skills/csharp-winforms-wpf/references/project-setup-ci.md",
+    "skills/csharp-winforms-wpf/references/feature-validation-checklists.md",
+    "skills/csharp-winforms-wpf/references/theme-design-tokens.md",
+    "skills/csharp-winforms-wpf/assets/templates/device-protocol-template.md"
+)
+
+foreach ($relativePath in $requiredSpecFiles) {
+    $fullPath = Join-Path $repoRoot $relativePath
+    if (-not (Test-Path -LiteralPath $fullPath)) {
+        Add-CheckError "Missing required spec file: $relativePath"
+    }
+}
+
 $checkHarness = Join-Path $scriptRoot "check-harness.ps1"
 foreach ($example in @("examples/minimal-harness", "examples/csharp-instrument-harness")) {
     $examplePath = Join-Path $repoRoot $example
@@ -122,4 +139,3 @@ if ($errors.Count -gt 0) {
 }
 
 Write-Host "Spec check passed. Root: $repoRoot"
-

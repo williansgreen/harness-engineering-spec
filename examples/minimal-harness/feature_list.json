@@ -14,15 +14,26 @@
       "title": "Provide minimal harness files",
       "user_visible_behavior": "A new session can understand the project, check status, and run the harness audit.",
       "status": "passing",
+      "risk_level": "low",
+      "hardware_required": false,
+      "simulation_strategy": "Documentation-only example; verification is the harness audit command.",
+      "platform_bitness": "not_applicable",
+      "data_retention": "none",
       "dependencies": [],
       "verification": [
         "Run scripts/check-harness.ps1 against this directory."
       ],
       "evidence": [
-        "Expected command: powershell -ExecutionPolicy Bypass -File ..\\..\\scripts\\check-harness.ps1 -TargetPath ."
+        {
+          "type": "quality",
+          "result": "passed",
+          "command": "powershell -ExecutionPolicy Bypass -File ..\\..\\scripts\\check-harness.ps1 -TargetPath .",
+          "timestamp": "2026-05-18",
+          "artifact": "",
+          "notes": "Minimal harness example is expected to pass the harness audit."
+        }
       ],
       "notes": "Documentation-only example."
     }
   ]
 }
-

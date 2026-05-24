@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/harness/feature-list.schema.json",
+  "title": "Harness Feature List",
+  "type": "object",
+  "required": [
+    "project",
+    "last_updated",
+    "rules",
+    "features"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "last_updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "rules": {
+      "type": "object",
+      "required": [
+        "single_active_feature",
+        "passing_requires_evidence",
+        "do_not_skip_verification"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "single_active_feature": {
+          "type": "boolean"
+        },
+        "passing_requires_evidence": {
+          "type": "boolean"
+        },
+        "do_not_skip_verification": {
+          "type": "boolean"
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/feature"
+      }
+    }
+  },
+  "$defs": {
+    "feature": {
+      "type": "object",
+      "required": [
+        "id",
+        "priority",
+        "area",
+        "title",
+        "user_visible_behavior",
+        "status",
+        "risk_level",
+        "hardware_required",
+        "simulation_strategy",
+        "dependencies",
+        "verification",
+        "evidence",
+        "notes"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "area": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "user_visible_behavior": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_started",
+            "in_progress",
+            "blocked",
+            "passing"
+          ]
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "hardware_required": {
+          "type": "boolean"
+        },
+        "simulation_strategy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "platform_bitness": {
+          "type": "string"
+        },
+        "data_retention": {
+          "type": "string"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verification": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "type",
+        "result",
+        "notes"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "build",
+            "test",
+            "quality",
+            "run",
+            "manual",
+            "substitute",
+            "artifact",
+            "review"
+          ]
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "blocked",
+            "not_run",
+            "partial"
+          ]
+        },
+        "command": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "artifact": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

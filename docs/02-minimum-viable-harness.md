@@ -7,11 +7,18 @@
 ```text
 AGENTS.md
 feature_list.json
+feature-list.schema.json
 progress.md
 session-handoff.md
 clean-state-checklist.md
 harness/build.md
 harness/test.md
+```
+
+生产项目或正在调整 agent 规则的项目，建议额外加入：
+
+```text
+evals/benchmark-record.md
 ```
 
 ## AGENTS.md 最小职责
@@ -28,9 +35,15 @@ harness/test.md
 
 - 记录功能列表。
 - 标记唯一 active feature。
-- 记录每个功能的验证要求和证据。
+- 记录每个功能的风险级别、硬件需求、模拟策略、验证要求和证据。
 
-passing 状态必须有证据，例如测试命令、截图、日志、人工验证记录或替代验证说明。
+passing 状态必须有结构化证据，例如测试命令、截图、日志、人工验证记录或替代验证说明。证据至少应说明类型、结果和备注；执行过命令时记录命令。
+
+## feature-list.schema.json 最小职责
+
+- 固定 `feature_list.json` 的基本字段和状态枚举。
+- 让 agent 和脚本能检查 evidence、risk、hardware、simulation 等字段是否缺失。
+- 作为项目内状态文件的机器可读契约，而不是另一个说明文档。
 
 ## progress.md 最小职责
 
@@ -59,3 +72,8 @@ passing 状态必须有证据，例如测试命令、截图、日志、人工验
 - 功能状态没有虚假 passing。
 - 下一轮能继续。
 
+## evals/benchmark-record.md 推荐职责
+
+- 记录 harness 或 skill 修改后的 forward-test 结果。
+- 记录失败、漏报、误报和下一步修正规则。
+- 区分任务定义和实际运行结果。

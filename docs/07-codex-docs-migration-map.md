@@ -11,6 +11,7 @@
 | `AGENTS.md` 的入口、优先级、任务路由思想 | `templates/AGENTS.md`、`docs/04-file-contracts.md` |
 | `docs/02-task-routing.md` | `docs/04-file-contracts.md`、后续可扩展为任务路由规范 |
 | `docs/16-codex-evaluation.md` | `checklists/harness-audit-checklist.md`，后续可扩展为 benchmark 规范 |
+| `docs/16-codex-evaluation.md` 的运行结果记录思想 | `docs/13-evaluation-records.md`、`templates/benchmark-record.md` |
 | `docs/30-feature-verification-loop-guidelines.md` | `docs/05-verification-loop.md` |
 | `docs/31-strictness-levels.md` | `docs/03-harness-maturity-levels.md` |
 | `harness/*.md` 的命令契约 | `templates/harness-build.md`、`templates/harness-test.md` |
@@ -28,17 +29,20 @@
 | `docs/20-ui-components-charting-guidelines.md` | `references/ui-layout-state-charting.md` |
 | `docs/21-ui-state-guidelines.md` | `references/ui-layout-state-charting.md` |
 | `docs/22-threading-performance-guidelines.md` | `references/threading-logging-release.md` |
-| `docs/27-csharp-project-setup-guidelines.md` | `references/solution-structure.md` |
+| `docs/25-theme-design-tokens.md` | `references/theme-design-tokens.md` |
+| `docs/27-csharp-project-setup-guidelines.md` | `references/solution-structure.md`、`references/project-setup-ci.md` |
 | `docs/28-csharp-dependency-injection-guidelines.md` | `references/dependency-injection-startup.md` |
 | `docs/29-csharp-logging-guidelines.md` | `references/threading-logging-release.md` |
 | `docs/23-deployment-guidelines.md` | `references/configuration-data-release.md`、`references/threading-logging-release.md` |
 | `docs/24-configuration-secrets-guidelines.md` | `references/configuration-data-release.md` |
 | `docs/26-data-versioning-guidelines.md` | `references/configuration-data-release.md` |
+| `checklists/device-communication-acceptance-checklist.md`、`checklists/data-processing-acceptance-checklist.md`、`checklists/workflow-control-acceptance-checklist.md` | `references/feature-validation-checklists.md` |
 | `checklists/csharp-project-acceptance-checklist.md` | `references/csharp-acceptance-checklist.md` |
 | `templates/csharp-solution-structure.md` | `assets/templates/csharp-solution-structure.md` |
 | `templates/winforms-mvp-template.md` | `assets/templates/winforms-mvp-template.md` |
 | `templates/wpf-mvvm-template.md` | `assets/templates/wpf-mvvm-template.md` |
 | `templates/device-service-template.md` | `assets/templates/device-service-template.md` |
+| `templates/device-protocol-template.md` | `assets/templates/device-protocol-template.md` |
 
 ## 仍建议保留在 codex_docs
 

@@ -34,10 +34,12 @@ if (Test-Path -LiteralPath $TargetPath) {
 $mappings = @(
     @{ Source = "AGENTS.md"; Destination = "AGENTS.md" },
     @{ Source = "feature_list.json"; Destination = "feature_list.json" },
+    @{ Source = "feature-list.schema.json"; Destination = "feature-list.schema.json" },
     @{ Source = "progress.md"; Destination = "progress.md" },
     @{ Source = "session-handoff.md"; Destination = "session-handoff.md" },
     @{ Source = "clean-state-checklist.md"; Destination = "clean-state-checklist.md" },
     @{ Source = "evaluator-rubric.md"; Destination = "evaluator-rubric.md" },
+    @{ Source = "benchmark-record.md"; Destination = "evals/benchmark-record.md" },
     @{ Source = "quality-document.md"; Destination = "quality-document.md" },
     @{ Source = "init.ps1"; Destination = "init.ps1" },
     @{ Source = "harness-env.md"; Destination = "harness/env.md" },

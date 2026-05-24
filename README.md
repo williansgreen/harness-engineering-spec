@@ -45,8 +45,28 @@ skills/      专项 Codex skills 草案
 - `docs/10-benchmarking.md`
 - `docs/11-skill-installation.md`
 - `docs/12-forward-testing.md`
+- `docs/13-evaluation-records.md`
 
 ## 快速使用
+
+### 让 AI 根据 Git 链接安装到目标项目
+
+可以。把本仓库设为 public 后，在目标项目里给 AI 这样的提示：
+
+```text
+请根据 https://github.com/williansgreen/harness-engineering-spec 为当前项目安装 harness 和 C# WinForms/WPF skill。
+
+要求：
+1. 先 clone 或读取该仓库的 README.md。
+2. 不要覆盖我已有文件，除非我明确允许。
+3. 运行 scripts/install-harness.ps1，把 harness 安装到当前项目根目录。
+4. 运行 scripts/install-codex-skill.ps1，把 csharp-winforms-wpf skill 安装到本机 Codex skills 目录。
+5. 把 harness/build.md、harness/test.md、harness/run.md 里的占位命令替换成当前项目真实命令。
+6. 运行 scripts/check-harness.ps1 检查安装结果。
+7. 最后说明改了哪些文件、哪些命令已验证、哪些地方仍需要我确认。
+```
+
+AI 可以按这个链接自动安装的前提是：它能访问网络、能写入目标项目文件、能执行 PowerShell，并且有权限写入本机 Codex skills 目录。不能指望 README 自动越权执行；README 的作用是提供稳定、可复制的安装流程。
 
 预览复制：
 
@@ -82,6 +102,14 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-codex-skill.ps1 -DryR
 
 - `examples/minimal-harness`
 - `examples/csharp-instrument-harness`
+
+创建 C# 仪器软件起点时，可先安装/引用 `skills/csharp-winforms-wpf`，再使用脚手架脚本：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\skills\csharp-winforms-wpf\scripts\new-instrument-solution.ps1 -ProductName InstrumentControl -TargetPath "D:\path\to\InstrumentControl" -UiFramework Wpf -Platform x64 -RunVerification
+```
+
+评估和 forward-test 结果建议记录到项目的 `evals/benchmark-record.md`，模板来自 `templates/benchmark-record.md`。
 
 ## 和 codex_docs 的关系
 

@@ -17,7 +17,8 @@ Harness 修改后应通过代表性任务验证效果。
 1. 选 3-8 个代表性任务。
 2. 记录无 harness 或旧 harness 的表现。
 3. 用新 harness 执行同类任务。
-4. 比较完成率、验证证据、返工次数和人工干预。
+4. 把结果写入 `evals/benchmark-record.md` 或等效记录。
+5. 比较完成率、验证证据、返工次数和人工干预。
 
 ## 任务类型组合
 
@@ -51,3 +52,6 @@ Harness 修改后应通过代表性任务验证效果。
 - 连续性维度没有 0。
 - 关键任务不能出现未记录的半成品。
 
+## 记录模板
+
+新项目可从 `templates/benchmark-record.md` 复制评估记录模板。记录格式和失败处理流程见 `docs/13-evaluation-records.md`。

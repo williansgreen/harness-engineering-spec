@@ -29,6 +29,38 @@ function Get-RelativeContent([string]$RelativePath) {
     return Get-Content -Raw -LiteralPath (Join-Path $targetRoot $RelativePath)
 }
 
+function Get-PropertyItemCount([object]$Object, [string]$PropertyName) {
+    if ($null -eq $Object) {
+        return 0
+    }
+    $property = $Object.PSObject.Properties[$PropertyName]
+    if ($null -eq $property -or $null -eq $property.Value) {
+        return 0
+    }
+    return @($property.Value).Count
+}
+
+function Get-PropertyValue([object]$Object, [string]$PropertyName) {
+    if ($null -eq $Object) {
+        return $null
+    }
+
+    $property = $Object.PSObject.Properties[$PropertyName]
+    if ($null -eq $property) {
+        return $null
+    }
+
+    return $property.Value
+}
+
+function Test-HasProperty([object]$Object, [string]$PropertyName) {
+    if ($null -eq $Object) {
+        return $false
+    }
+
+    return $null -ne $Object.PSObject.Properties[$PropertyName]
+}
+
 $required = @(
     "AGENTS.md",
     "feature_list.json",
@@ -39,6 +71,7 @@ $required = @(
 )
 
 $recommended = @(
+    "feature-list.schema.json",
     "session-handoff.md",
     "evaluator-rubric.md",
     "quality-document.md",
@@ -64,6 +97,16 @@ foreach ($path in $recommended) {
 if (Test-RelativePath "feature_list.json") {
     try {
         $featureState = Get-RelativeContent "feature_list.json" | ConvertFrom-Json
+        $allowedStatuses = @("not_started", "in_progress", "blocked", "passing")
+        $allowedRiskLevels = @("low", "medium", "high", "critical")
+        $allowedEvidenceResults = @("passed", "failed", "blocked", "not_run", "partial")
+
+        if (-not (Test-HasProperty $featureState "last_updated") -or [string]::IsNullOrWhiteSpace([string](Get-PropertyValue $featureState "last_updated"))) {
+            Add-WarningMessage "feature_list.json is missing last_updated."
+        } elseif (-not ([string](Get-PropertyValue $featureState "last_updated") -match '^\d{4}-\d{2}-\d{2}$')) {
+            Add-WarningMessage "feature_list.json last_updated should use YYYY-MM-DD."
+        }
+
         if (-not $featureState.features) {
             Add-ErrorMessage "feature_list.json has no features array."
         } else {
@@ -72,17 +115,67 @@ if (Test-RelativePath "feature_list.json") {
                 Add-ErrorMessage "feature_list.json has more than one in_progress feature."
             }
 
+            $featureIds = @{}
             foreach ($feature in $featureState.features) {
                 if (-not $feature.id) {
                     Add-ErrorMessage "A feature is missing id."
+                } elseif ($featureIds.ContainsKey([string]$feature.id)) {
+                    Add-ErrorMessage "Duplicate feature id: $($feature.id)."
+                } else {
+                    $featureIds[[string]$feature.id] = $true
                 }
                 if (-not $feature.status) {
                     Add-ErrorMessage "Feature '$($feature.id)' is missing status."
+                } elseif ($allowedStatuses -notcontains $feature.status) {
+                    Add-ErrorMessage "Feature '$($feature.id)' has unsupported status '$($feature.status)'. Allowed: $($allowedStatuses -join ', ')."
+                }
+                if (-not (Test-HasProperty $feature "risk_level")) {
+                    Add-WarningMessage "Feature '$($feature.id)' is missing risk_level."
+                } elseif ($allowedRiskLevels -notcontains $feature.risk_level) {
+                    Add-ErrorMessage "Feature '$($feature.id)' has unsupported risk_level '$($feature.risk_level)'. Allowed: $($allowedRiskLevels -join ', ')."
+                }
+                if (-not (Test-HasProperty $feature "hardware_required")) {
+                    Add-WarningMessage "Feature '$($feature.id)' is missing hardware_required."
+                } elseif (-not ($feature.hardware_required -is [bool])) {
+                    Add-ErrorMessage "Feature '$($feature.id)' hardware_required must be true or false."
+                }
+                if (-not (Test-HasProperty $feature "simulation_strategy") -or [string]::IsNullOrWhiteSpace([string]$feature.simulation_strategy)) {
+                    Add-WarningMessage "Feature '$($feature.id)' is missing simulation_strategy."
+                }
+                $verificationCount = Get-PropertyItemCount $feature "verification"
+                if ($verificationCount -eq 0) {
+                    Add-WarningMessage "Feature '$($feature.id)' has no verification requirements."
+                }
+                $evidenceItems = @()
+                if (Test-HasProperty $feature "evidence") {
+                    $evidenceItems = @($feature.evidence)
+                }
+                foreach ($evidence in $evidenceItems) {
+                    if ($evidence -is [string]) {
+                        Add-WarningMessage "Feature '$($feature.id)' has string evidence; use structured evidence objects."
+                        continue
+                    }
+
+                    foreach ($requiredEvidenceField in @("type", "result", "notes")) {
+                        if (-not (Test-HasProperty $evidence $requiredEvidenceField) -or [string]::IsNullOrWhiteSpace([string](Get-PropertyValue $evidence $requiredEvidenceField))) {
+                            Add-WarningMessage "Feature '$($feature.id)' evidence item is missing $requiredEvidenceField."
+                        }
+                    }
+
+                    $evidenceResult = [string](Get-PropertyValue $evidence "result")
+                    if (-not [string]::IsNullOrWhiteSpace($evidenceResult) -and $allowedEvidenceResults -notcontains $evidenceResult) {
+                        Add-ErrorMessage "Feature '$($feature.id)' evidence result '$evidenceResult' is unsupported. Allowed: $($allowedEvidenceResults -join ', ')."
+                    }
                 }
                 if ($feature.status -eq "passing") {
-                    $evidenceCount = @($feature.evidence).Count
+                    $evidenceCount = Get-PropertyItemCount $feature "evidence"
                     if ($evidenceCount -eq 0) {
                         Add-ErrorMessage "Feature '$($feature.id)' is passing but has no evidence."
+                    } else {
+                        $passedEvidence = @($evidenceItems | Where-Object { $_ -isnot [string] -and (Get-PropertyValue $_ "result") -eq "passed" })
+                        if ($passedEvidence.Count -eq 0) {
+                            Add-WarningMessage "Feature '$($feature.id)' is passing but has no structured evidence with result 'passed'."
+                        }
                     }
                 }
                 if ($feature.status -eq "blocked" -and [string]::IsNullOrWhiteSpace([string]$feature.notes)) {

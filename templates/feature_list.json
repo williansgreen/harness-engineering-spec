@@ -14,6 +14,11 @@
       "title": "Replace with feature title",
       "user_visible_behavior": "Describe the observable behavior.",
       "status": "not_started",
+      "risk_level": "medium",
+      "hardware_required": false,
+      "simulation_strategy": "Use automated tests, fixed samples, mocks, simulators, or protocol replay before real-only checks.",
+      "platform_bitness": "not_applicable",
+      "data_retention": "none",
       "dependencies": [],
       "verification": [
         "Build succeeds.",
@@ -25,4 +30,3 @@
     }
   ]
 }
-

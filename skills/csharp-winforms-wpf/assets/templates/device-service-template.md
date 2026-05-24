@@ -18,3 +18,4 @@ Implementations:
 
 Tests should cover normal response, timeout, error response, disconnect, and cancellation.
 
+Document concrete protocols with `device-protocol-template.md` before wiring a real SDK into application workflows.

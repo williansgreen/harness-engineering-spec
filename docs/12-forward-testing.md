@@ -45,3 +45,4 @@ For each forward test, record:
 - False positive.
 - Skill/reference update needed.
 
+Use `templates/benchmark-record.md` or an equivalent project record. Keep task definitions in `evals/`, and keep dated run results separate.

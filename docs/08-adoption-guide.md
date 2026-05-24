@@ -22,11 +22,12 @@ checklists/harness-audit-checklist.md
 
 1. 复制 `templates/AGENTS.md` 到项目根目录并按项目修改。
 2. 复制 `templates/feature_list.json` 并填入真实功能。
-3. 复制 `templates/progress.md`。
-4. 复制 `templates/session-handoff.md`。
-5. 创建 `harness/` 并复制 build/run/test/quality/env 模板。
-6. 复制 `templates/clean-state-checklist.md`。
-7. 第一次让 agent 只检查上下文，不直接写代码。
+3. 复制 `templates/feature-list.schema.json`，保留为项目状态契约。
+4. 复制 `templates/progress.md`。
+5. 复制 `templates/session-handoff.md`。
+6. 创建 `harness/` 并复制 build/run/test/quality/env 模板。
+7. 复制 `templates/clean-state-checklist.md`。
+8. 第一次让 agent 只检查上下文，不直接写代码。
 
 ## 首次检查提示
 
@@ -48,6 +49,6 @@ checklists/harness-audit-checklist.md
 - 当前 active feature 是什么？
 - 构建命令是什么？
 - 测试命令是什么？
-- passing 的证据在哪里？
+- passing 的结构化证据在哪里？
+- 真实硬件不可用时的模拟或替代验证是什么？
 - 下一轮会话从哪里继续？
-

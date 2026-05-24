@@ -14,6 +14,11 @@
       "title": "Create formal solution structure",
       "user_visible_behavior": "Developers can build a C# desktop instrument app with separated UI, Application, Domain, Devices, and tests.",
       "status": "not_started",
+      "risk_level": "medium",
+      "hardware_required": false,
+      "simulation_strategy": "Use dotnet build/test and simulated device abstractions before any real SDK integration.",
+      "platform_bitness": "unknown",
+      "data_retention": "none",
       "dependencies": [],
       "verification": [
         "Create .sln with src and tests projects.",
@@ -30,6 +35,11 @@
       "title": "Add simulated device service",
       "user_visible_behavior": "The app can run and test the main workflow without real hardware.",
       "status": "not_started",
+      "risk_level": "high",
+      "hardware_required": false,
+      "simulation_strategy": "Implement deterministic simulated device behavior covering normal, timeout, error, disconnect, and cancellation paths.",
+      "platform_bitness": "unknown",
+      "data_retention": "none",
       "dependencies": [
         "arch-001"
       ],
@@ -42,4 +52,3 @@
     }
   ]
 }
-
