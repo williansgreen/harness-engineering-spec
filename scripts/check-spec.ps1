@@ -48,6 +48,7 @@ foreach ($file in $jsonFiles) {
 
 $requiredSpecFiles = @(
     "docs/13-evaluation-records.md",
+    "docs/14-harness-skill-boundary.md",
     "templates/benchmark-record.md",
     "templates/feature-list.schema.json",
     "templates/harness-hardware-test.md",

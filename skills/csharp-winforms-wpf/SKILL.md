@@ -43,6 +43,20 @@ Use this skill to turn Codex into a C# desktop application collaborator with exp
 5. Run build and relevant tests from the project's harness docs.
 6. Record verification, unverified paths, and remaining risk.
 
+## Reference Selection
+
+Use the smallest relevant set:
+
+- Project setup or package versions: `project-setup-ci.md`, then `solution-structure.md` if structure changes.
+- WinForms UI: `winforms-mvp.md`, `designer-xaml-rules.md`, and `ui-layout-state-charting.md`.
+- Fixed IPC, DPI, or target screen acceptance: add `winforms-dpi-scaling.md` and `winforms-ipc-ui-acceptance.md`.
+- WPF UI: `wpf-mvvm.md`, `designer-xaml-rules.md`, and `theme-design-tokens.md` when visual tokens are reused.
+- Device communication: `instrument-device-validation.md`, `feature-validation-checklists.md`, and `serial-protocol-replay.md` when protocol behavior is touched.
+- Real hardware verification: add `hardware-acceptance.md` and keep project-specific steps in `harness/hardware-test.md`.
+- Packaging or deployment: `winforms-packaging-deployment.md`, `configuration-data-release.md`, and project `harness/release.md`.
+- Sensitive data, accounts, reports, or biometrics: `medical-data-security.md` and project `harness/security-data.md`.
+- Final readiness review: `csharp-acceptance-checklist.md` plus only the area-specific references above.
+
 ## Defaults
 
 - Formal C# desktop apps use a solution with `src/` and `tests/`.

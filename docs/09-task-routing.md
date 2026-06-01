@@ -81,3 +81,54 @@ Harness 应让 agent 在动手前识别任务类型。
 - 环境允许时运行并观察。
 - 不能运行时说明视觉验收待确认。
 
+## 硬件与协议类
+
+触发：
+
+- 串口。
+- 控制板。
+- 设备通信。
+- 协议回放。
+- 模拟器。
+- 真实硬件验收。
+
+默认动作：
+
+- 区分软件 replay 证据和真实物理验收。
+- 项目实际命令写入 `harness/protocol-replay.md` 或 `harness/hardware-test.md`。
+- 语言或设备通信通用规则写入对应 skill reference。
+- 不用 build-only evidence 标记硬件高风险功能 passing。
+
+## 打包与部署类
+
+触发：
+
+- 打包。
+- 发布。
+- 安装包。
+- 部署。
+- 目标机器验收。
+
+默认动作：
+
+- 项目实际打包命令和产物写入 `harness/release.md`。
+- 目标机器启动、依赖、目录权限和回滚写入 `harness/deployment-acceptance.md`。
+- C# 桌面打包通用规则放入 `skills/csharp-winforms-wpf/references/winforms-packaging-deployment.md`。
+
+## 安全与数据类
+
+触发：
+
+- secrets。
+- token。
+- 患者/样品/客户数据。
+- 生物特征。
+- 报告。
+- 审计日志。
+
+默认动作：
+
+- 项目实际数据分类写入 `harness/security-data.md`。
+- 不提交真实敏感数据。
+- 不把真实密钥、患者/样品数据或生物特征写入示例、eval 或日志。
+- C# 医疗或敏感数据通用规则放入 `skills/csharp-winforms-wpf/references/medical-data-security.md`。

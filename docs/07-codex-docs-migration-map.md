@@ -36,6 +36,10 @@
 | `docs/23-deployment-guidelines.md` | `references/configuration-data-release.md`、`references/threading-logging-release.md` |
 | `docs/24-configuration-secrets-guidelines.md` | `references/configuration-data-release.md` |
 | `docs/26-data-versioning-guidelines.md` | `references/configuration-data-release.md` |
+| 固定 IPC、高 DPI、窗口验收经验 | `references/winforms-dpi-scaling.md`、`references/winforms-ipc-ui-acceptance.md` |
+| 串口 replay、设备模拟、硬件验收经验 | `references/serial-protocol-replay.md`、`references/hardware-acceptance.md` |
+| C# 桌面打包部署经验 | `references/winforms-packaging-deployment.md` |
+| 医疗、账号、报告、生物特征和敏感数据经验 | `references/medical-data-security.md` |
 | `checklists/device-communication-acceptance-checklist.md`、`checklists/data-processing-acceptance-checklist.md`、`checklists/workflow-control-acceptance-checklist.md` | `references/feature-validation-checklists.md` |
 | `checklists/csharp-project-acceptance-checklist.md` | `references/csharp-acceptance-checklist.md` |
 | `templates/csharp-solution-structure.md` | `assets/templates/csharp-solution-structure.md` |
@@ -52,3 +56,11 @@
 - C# WinForms/WPF skill：提供桌面上位机专项工程规则。
 
 这样 `codex_docs` 就不再同时承担“通用理论”“项目模板”“C# 专项规则”“仪器软件规范”四种职责。
+
+## 分层维护规则
+
+当真实项目暴露新问题时：
+
+- 如果问题是当前项目路径、命令、目标机器或 evidence，写入 harness。
+- 如果问题是 C# WinForms/WPF 上位机的可复用规则，写入 skill reference。
+- 如果问题适合作为回归任务，写入 evals。
