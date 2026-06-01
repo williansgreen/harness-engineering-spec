@@ -1,5 +1,7 @@
 # Progress
 
+Keep this file bounded. Preserve current status and recent sessions; compact older entries into a short summary instead of appending indefinitely.
+
 ## Current Verified State
 
 - Repository root:
@@ -20,4 +22,3 @@
 - Files changed:
 - Risks or unresolved issues:
 - Next best action:
-

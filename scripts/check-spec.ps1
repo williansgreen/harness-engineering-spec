@@ -50,9 +50,22 @@ $requiredSpecFiles = @(
     "docs/13-evaluation-records.md",
     "templates/benchmark-record.md",
     "templates/feature-list.schema.json",
+    "templates/harness-hardware-test.md",
+    "templates/harness-protocol-replay.md",
+    "templates/harness-ui-acceptance.md",
+    "templates/harness-deployment-acceptance.md",
+    "templates/harness-security-data.md",
+    "templates/harness-update-evidence.ps1",
     "skills/csharp-winforms-wpf/references/project-setup-ci.md",
     "skills/csharp-winforms-wpf/references/feature-validation-checklists.md",
+    "skills/csharp-winforms-wpf/references/winforms-dpi-scaling.md",
+    "skills/csharp-winforms-wpf/references/winforms-packaging-deployment.md",
+    "skills/csharp-winforms-wpf/references/serial-protocol-replay.md",
+    "skills/csharp-winforms-wpf/references/hardware-acceptance.md",
+    "skills/csharp-winforms-wpf/references/medical-data-security.md",
+    "skills/csharp-winforms-wpf/references/winforms-ipc-ui-acceptance.md",
     "skills/csharp-winforms-wpf/references/theme-design-tokens.md",
+    "skills/csharp-winforms-wpf/assets/templates/winforms-mainform-layout.md",
     "skills/csharp-winforms-wpf/assets/templates/device-protocol-template.md"
 )
 
@@ -74,6 +87,43 @@ foreach ($example in @("examples/minimal-harness", "examples/csharp-instrument-h
     & powershell -NoProfile -ExecutionPolicy Bypass -File $checkHarness -TargetPath $examplePath -Strict
     if ($LASTEXITCODE -ne 0) {
         Add-CheckError "Harness example failed strict check: $example"
+    }
+}
+
+$mirroredTemplates = @(
+    @{
+        Template = "templates/harness-git-save-feature.ps1"
+        Mirrors = @(
+            "examples/minimal-harness/harness/git-save-feature.ps1",
+            "examples/csharp-instrument-harness/harness/git-save-feature.ps1"
+        )
+    },
+    @{
+        Template = "templates/harness-update-evidence.ps1"
+        Mirrors = @(
+            "examples/minimal-harness/harness/update-evidence.ps1",
+            "examples/csharp-instrument-harness/harness/update-evidence.ps1"
+        )
+    }
+)
+
+foreach ($mirrorGroup in $mirroredTemplates) {
+    $templatePath = Join-Path $repoRoot $mirrorGroup.Template
+    if (-not (Test-Path -LiteralPath $templatePath)) {
+        Add-CheckError "Missing mirrored template source: $($mirrorGroup.Template)"
+        continue
+    }
+    $templateHash = (Get-FileHash -LiteralPath $templatePath -Algorithm SHA256).Hash
+    foreach ($mirror in $mirrorGroup.Mirrors) {
+        $mirrorPath = Join-Path $repoRoot $mirror
+        if (-not (Test-Path -LiteralPath $mirrorPath)) {
+            Add-CheckError "Missing mirrored template file: $mirror"
+            continue
+        }
+        $mirrorHash = (Get-FileHash -LiteralPath $mirrorPath -Algorithm SHA256).Hash
+        if ($templateHash -ne $mirrorHash) {
+            Add-CheckError "Mirrored template is out of sync: $mirror"
+        }
     }
 }
 

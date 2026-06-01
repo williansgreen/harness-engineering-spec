@@ -38,6 +38,7 @@ Harness 文件不是普通说明文档，它们是 agent 的运行契约。
 - `passing` 必须有 evidence。
 - `blocked` 必须说明 blocker 和下一步。
 - evidence 优先使用结构化对象，至少包含 `type`、`result` 和 `notes`。
+- evidence 应通过 `harness/update-evidence.ps1` 或同等结构化流程追加，避免粘贴长日志或手写 JSON 破坏格式。
 - C# 仪器功能应记录 `hardware_required`、`simulation_strategy`、`platform_bitness` 和数据留存影响。
 
 ## feature-list.schema.json
@@ -85,9 +86,26 @@ Harness 文件不是普通说明文档，它们是 agent 的运行契约。
 - 记录真实环境和命令。
 - 区分构建、运行、测试、质量检查和发布。
 - 说明不能执行时的替代验证。
+- 提供可选工具脚本，例如 evidence 追加、Git checkpoint 或 harness 升级差异扫描。
+- 对硬件、协议回放、UI、部署和敏感数据等高风险项目，提供项目级验收文件。
 
 规则：
 
 - 命令必须能复制执行。
 - 示例命令不能冒充项目真实命令。
 - 环境缺口必须记录。
+
+## 专项 harness 文件
+
+职责：
+
+- `harness/hardware-test.md`: 记录真实硬件验收范围、前置条件、步骤、安全限制和证据。
+- `harness/protocol-replay.md`: 记录 replay/simulator/mock 的命令、fixture 和错误场景。
+- `harness/ui-acceptance.md`: 记录目标显示器、DPI、字体、必测窗体和截图证据。
+- `harness/deployment-acceptance.md`: 记录安装包或部署目录在目标机器上的验收。
+- `harness/security-data.md`: 记录 secrets、个人/患者/样品/生物特征/报告数据的项目策略。
+
+规则：
+
+- 这些文件记录项目实际路径、命令、目标机器和证据，不承载语言框架通用教程。
+- 对应的语言或领域通用规则应放入 skill references。

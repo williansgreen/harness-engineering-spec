@@ -53,6 +53,42 @@
         "Flags runtime-built fixed UI.",
         "Flags device or DI dependencies in designer path."
       ]
+    },
+    {
+      "id": "instrument-acceptance-001",
+      "area": "generic-harness",
+      "prompt": "Adopt harness acceptance docs for a desktop instrument project with real hardware, protocol replay, target IPC UI acceptance, deployment validation, and sensitive data handling.",
+      "expected_references": [
+        "templates/harness-hardware-test.md",
+        "templates/harness-protocol-replay.md",
+        "templates/harness-ui-acceptance.md",
+        "templates/harness-deployment-acceptance.md",
+        "templates/harness-security-data.md",
+        "docs/04-file-contracts.md"
+      ],
+      "pass_criteria": [
+        "Keeps project-specific commands and evidence in harness files.",
+        "Does not put C# implementation guidance into generic harness templates.",
+        "Requires hardware blockers and substitute replay evidence to be explicit.",
+        "Requires sensitive data and package contents to be classified."
+      ]
+    },
+    {
+      "id": "csharp-packaging-001",
+      "area": "csharp-winforms-wpf",
+      "prompt": "Use $csharp-winforms-wpf to review WinForms packaging and deployment readiness for an offline fixed IPC with native DLLs, models, config, logs, reports, and target startup acceptance.",
+      "expected_references": [
+        "references/winforms-packaging-deployment.md",
+        "references/configuration-data-release.md",
+        "references/medical-data-security.md",
+        "references/csharp-acceptance-checklist.md"
+      ],
+      "pass_criteria": [
+        "Separates package creation from deployment acceptance.",
+        "Checks bitness, runtime, native DLLs, drivers, assets, config, logs, and data directories.",
+        "Flags secrets, sensitive data, and production endpoints in package inputs.",
+        "Requires target-machine startup evidence."
+      ]
     }
   ]
 }

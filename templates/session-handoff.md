@@ -1,5 +1,7 @@
 # Session Handoff
 
+This is a rolling handoff for the next session. Replace stale details; do not append full chat history.
+
 ## Verified
 
 - Known working behavior:

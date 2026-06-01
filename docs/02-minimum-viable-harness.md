@@ -13,12 +13,18 @@ session-handoff.md
 clean-state-checklist.md
 harness/build.md
 harness/test.md
+harness/update-evidence.ps1
 ```
 
 生产项目或正在调整 agent 规则的项目，建议额外加入：
 
 ```text
 evals/benchmark-record.md
+harness/hardware-test.md
+harness/protocol-replay.md
+harness/ui-acceptance.md
+harness/deployment-acceptance.md
+harness/security-data.md
 ```
 
 ## AGENTS.md 最小职责
@@ -38,6 +44,8 @@ evals/benchmark-record.md
 - 记录每个功能的风险级别、硬件需求、模拟策略、验证要求和证据。
 
 passing 状态必须有结构化证据，例如测试命令、截图、日志、人工验证记录或替代验证说明。证据至少应说明类型、结果和备注；执行过命令时记录命令。
+
+推荐用 `harness/update-evidence.ps1` 追加 evidence，减少手写 JSON 出错。
 
 ## feature-list.schema.json 最小职责
 
@@ -77,3 +85,11 @@ passing 状态必须有结构化证据，例如测试命令、截图、日志、
 - 记录 harness 或 skill 修改后的 forward-test 结果。
 - 记录失败、漏报、误报和下一步修正规则。
 - 区分任务定义和实际运行结果。
+
+## 专项验收 Harness 推荐职责
+
+- `harness/hardware-test.md`: 真实硬件、目标机器、物理安全状态和人工验收。
+- `harness/protocol-replay.md`: 协议回放、模拟器、虚拟串口、错误帧和取消路径。
+- `harness/ui-acceptance.md`: 目标分辨率、DPI、字体、截图和视觉验收。
+- `harness/deployment-acceptance.md`: 安装后启动、依赖、目录权限和目标机验收。
+- `harness/security-data.md`: secrets、患者/样品/客户数据、日志、报告和敏感 artifact 策略。

@@ -137,10 +137,61 @@ harness/run.md
 harness/test.md
 harness/quality.md
 harness/release.md
+harness/hardware-test.md
+harness/protocol-replay.md
+harness/ui-acceptance.md
+harness/deployment-acceptance.md
+harness/security-data.md
+harness/git-save-feature.ps1
+harness/update-evidence.ps1
 evals/benchmark-record.md
 ```
 
 安装后必须把 `harness/*.md` 里的占位命令替换成目标项目的真实命令。`check-harness.ps1` 对占位符给出 warning 是正常的，表示还没有完成项目化配置。
+
+通用约定是：项目实际命令、目标机器、证据路径和阻塞项写进 `harness/`；C# WinForms/WPF 的通用工程规则写进 `skills/csharp-winforms-wpf/references/`。
+
+### Git checkpoint 小工具
+
+Harness 默认不会自动提交 Git。要启用这个工作流，需要在任务里明确说明，例如：
+
+```text
+本轮启用 Git checkpoint：每完成一个可独立验证的小功能后，用 harness/git-save-feature.ps1 创建本地 commit。
+```
+
+手动执行方式：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "feat(scope): summary" -Paths .\src\File.cs .\tests\FileTests.cs -VerifyCommand "dotnet build", "dotnet test"
+```
+
+如果验证已经刚刚运行过，可以改用 `-VerificationAlreadyRun`。默认应传明确的 `-Paths`，只在人工检查过所有 dirty files 后才使用 `-All`。
+
+如需同时写入 `feature_list.json` evidence：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "feat(scope): summary" -Paths .\src\File.cs -VerificationAlreadyRun -EvidenceFeatureId feat-001 -EvidenceType review -RecordProgress
+```
+
+单独追加 evidence：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\harness\update-evidence.ps1 -FeatureId feat-001 -Type test -Result passed -Command "dotnet test" -Notes "Unit tests passed."
+```
+
+### Harness 升级差异扫描
+
+对已经安装过 harness 的项目，先查看模板和目标项目的差异，不直接覆盖：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\upgrade-harness.ps1 -TargetPath "D:\path\to\project" -ShowDiff
+```
+
+只补齐缺失文件：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\upgrade-harness.ps1 -TargetPath "D:\path\to\project" -ApplyMissing
+```
 
 ### 安装 Codex Skill
 
@@ -183,6 +234,17 @@ powershell -ExecutionPolicy Bypass -File .\skills\csharp-winforms-wpf\scripts\ne
 ```
 
 脚本会创建分层 `.sln`，包括 UI、Application、Domain、Devices、Infrastructure、测试项目、模拟设备和基础测试。真实项目接入厂商 SDK 前，应先补充设备协议或 SDK 约束文档，可从 `skills/csharp-winforms-wpf/assets/templates/device-protocol-template.md` 开始。
+
+C# 上位机项目常用的专项规则位于：
+
+```text
+skills/csharp-winforms-wpf/references/winforms-dpi-scaling.md
+skills/csharp-winforms-wpf/references/winforms-ipc-ui-acceptance.md
+skills/csharp-winforms-wpf/references/serial-protocol-replay.md
+skills/csharp-winforms-wpf/references/hardware-acceptance.md
+skills/csharp-winforms-wpf/references/winforms-packaging-deployment.md
+skills/csharp-winforms-wpf/references/medical-data-security.md
+```
 
 ### 验证本仓库
 

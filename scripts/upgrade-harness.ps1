@@ -2,8 +2,9 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$TargetPath,
 
-    [switch]$DryRun,
-    [switch]$Force
+    [switch]$ShowDiff,
+
+    [switch]$ApplyMissing
 )
 
 $ErrorActionPreference = "Stop"
@@ -12,24 +13,11 @@ $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repoRoot = Split-Path -Parent $scriptRoot
 $templateRoot = Join-Path $repoRoot "templates"
 
-if (-not (Test-Path -LiteralPath $templateRoot)) {
-    throw "Template directory not found: $templateRoot"
+if (-not (Test-Path -LiteralPath $TargetPath)) {
+    throw "Target path not found: $TargetPath"
 }
 
-if (Test-Path -LiteralPath $TargetPath) {
-    $targetRoot = (Resolve-Path -LiteralPath $TargetPath).Path
-} else {
-    if ([System.IO.Path]::IsPathRooted($TargetPath)) {
-        $targetRoot = [System.IO.Path]::GetFullPath($TargetPath)
-    } else {
-        $targetRoot = [System.IO.Path]::GetFullPath((Join-Path (Get-Location) $TargetPath))
-    }
-    if ($DryRun) {
-        Write-Host "[dry-run] Would create target directory: $targetRoot"
-    } else {
-        New-Item -ItemType Directory -Force -Path $targetRoot | Out-Null
-    }
-}
+$targetRoot = (Resolve-Path -LiteralPath $TargetPath).Path
 
 $mappings = @(
     @{ Source = "AGENTS.md"; Destination = "AGENTS.md" },
@@ -57,8 +45,10 @@ $mappings = @(
     @{ Source = "harness-update-evidence.ps1"; Destination = "harness/update-evidence.ps1" }
 )
 
+$same = 0
+$missing = 0
+$different = 0
 $copied = 0
-$skipped = 0
 
 foreach ($mapping in $mappings) {
     $source = Join-Path $templateRoot $mapping.Source
@@ -69,25 +59,35 @@ foreach ($mapping in $mappings) {
         throw "Template file not found: $source"
     }
 
-    if ((Test-Path -LiteralPath $destination) -and -not $Force) {
-        Write-Host "[skip] $($mapping.Destination) already exists. Use -Force to overwrite."
-        $skipped++
+    if (-not (Test-Path -LiteralPath $destination)) {
+        Write-Host "[missing] $($mapping.Destination)"
+        $missing++
+        if ($ApplyMissing) {
+            if (-not (Test-Path -LiteralPath $destinationDir)) {
+                New-Item -ItemType Directory -Force -Path $destinationDir | Out-Null
+            }
+            Copy-Item -LiteralPath $source -Destination $destination
+            Write-Host "  copied from template"
+            $copied++
+        }
         continue
     }
 
-    if ($DryRun) {
-        Write-Host "[dry-run] Copy $($mapping.Source) -> $($mapping.Destination)"
-        $copied++
+    $sourceHash = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash
+    $destinationHash = (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash
+
+    if ($sourceHash -eq $destinationHash) {
+        Write-Host "[same] $($mapping.Destination)"
+        $same++
         continue
     }
 
-    if (-not (Test-Path -LiteralPath $destinationDir)) {
-        New-Item -ItemType Directory -Force -Path $destinationDir | Out-Null
+    Write-Host "[different] $($mapping.Destination)"
+    $different++
+    if ($ShowDiff) {
+        & git diff --no-index -- $destination $source
+        $null = $LASTEXITCODE
     }
-
-    Copy-Item -LiteralPath $source -Destination $destination -Force:$Force
-    Write-Host "[copy] $($mapping.Source) -> $($mapping.Destination)"
-    $copied++
 }
 
-Write-Host "Install complete. Copied: $copied. Skipped: $skipped. Target: $targetRoot"
+Write-Host "Upgrade scan complete. Same: $same. Missing: $missing. Different: $different. Copied: $copied. Target: $targetRoot"

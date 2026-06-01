@@ -1,6 +1,6 @@
 # UI Layout, State, And Charting
 
-Use this reference for instrument dashboards, high DPI layout, state display, and graph-heavy UI.
+Use this reference for instrument dashboards, adaptive layout, state display, and graph-heavy UI. For WinForms DPI policy details, read `references/winforms-dpi-scaling.md`.
 
 ## Layout Priorities
 
@@ -41,10 +41,12 @@ Set:
 - `Dock`
 - `Anchor`
 - `MinimumSize`
-- `AutoScaleMode = Dpi`
-- High DPI mode in the application entry point when supported.
+- `AutoScroll` on parameter panels that can exceed the available height.
+
+- Match the project's documented scaling policy before changing `AutoScaleMode`, manifest, app config, or entry-point DPI calls.
 
 Avoid placing every control directly on the form with absolute coordinates.
+Use containers for normal UI and reserve absolute positions for physical maps, calibrated overlays, or custom drawing surfaces with documented coordinate meaning.
 
 ## WPF Layout
 
@@ -115,4 +117,3 @@ Acquisition frequency is not UI refresh frequency.
 ```
 
 Use buffers and refresh UI at a controlled rate, commonly 5-20 Hz. Do not redraw complex UI for every sampled point.
-

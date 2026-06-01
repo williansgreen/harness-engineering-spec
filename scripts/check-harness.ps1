@@ -79,7 +79,14 @@ $recommended = @(
     "harness/env.md",
     "harness/run.md",
     "harness/quality.md",
-    "harness/release.md"
+    "harness/release.md",
+    "harness/hardware-test.md",
+    "harness/protocol-replay.md",
+    "harness/ui-acceptance.md",
+    "harness/deployment-acceptance.md",
+    "harness/security-data.md",
+    "harness/git-save-feature.ps1",
+    "harness/update-evidence.ps1"
 )
 
 foreach ($path in $required) {
@@ -210,7 +217,14 @@ $filesToScan = @(
     "harness/run.md",
     "harness/test.md",
     "harness/quality.md",
-    "harness/release.md"
+    "harness/release.md",
+    "harness/hardware-test.md",
+    "harness/protocol-replay.md",
+    "harness/ui-acceptance.md",
+    "harness/deployment-acceptance.md",
+    "harness/security-data.md",
+    "harness/git-save-feature.ps1",
+    "harness/update-evidence.ps1"
 )
 
 foreach ($path in $filesToScan) {
@@ -235,6 +249,33 @@ foreach ($path in @("harness/build.md", "harness/test.md")) {
     $fence = -join @([char]96, [char]96, [char]96)
     if (-not $content.Contains($fence)) {
         Add-WarningMessage "$path should include a copyable command block."
+    }
+}
+
+foreach ($path in @("harness/hardware-test.md", "harness/protocol-replay.md", "harness/ui-acceptance.md", "harness/deployment-acceptance.md", "harness/security-data.md")) {
+    if (-not (Test-RelativePath $path)) {
+        continue
+    }
+
+    $content = Get-RelativeContent $path
+    if ($content.Length -lt 200) {
+        Add-WarningMessage "$path is present but looks too small to describe project-specific acceptance."
+    }
+}
+
+$lineBudgets = @(
+    @{ Path = "progress.md"; Max = 500; Guidance = "compact old session entries into a short summary" },
+    @{ Path = "session-handoff.md"; Max = 250; Guidance = "keep this as a rolling handoff, not an append-only log" }
+)
+
+foreach ($budget in $lineBudgets) {
+    if (-not (Test-RelativePath $budget.Path)) {
+        continue
+    }
+
+    $lineCount = @(Get-Content -LiteralPath (Join-Path $targetRoot $budget.Path)).Count
+    if ($lineCount -gt $budget.Max) {
+        Add-WarningMessage "$($budget.Path) has $lineCount lines; $($budget.Guidance)."
     }
 }
 

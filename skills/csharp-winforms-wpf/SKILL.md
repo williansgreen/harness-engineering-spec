@@ -25,12 +25,18 @@ Use this skill to turn Codex into a C# desktop application collaborator with exp
    - WinForms: `references/winforms-mvp.md`
    - WPF: `references/wpf-mvvm.md`
    - Designer/XAML rules: `references/designer-xaml-rules.md`
+   - WinForms DPI and scaling: `references/winforms-dpi-scaling.md`
+   - Fixed IPC UI acceptance: `references/winforms-ipc-ui-acceptance.md`
    - UI layout, charts, and state: `references/ui-layout-state-charting.md`
    - Theme and design tokens: `references/theme-design-tokens.md`
    - Devices and validation: `references/instrument-device-validation.md`
+   - Hardware acceptance: `references/hardware-acceptance.md`
+   - Serial/protocol replay: `references/serial-protocol-replay.md`
    - Feature validation checklists: `references/feature-validation-checklists.md`
    - Dependency injection and startup: `references/dependency-injection-startup.md`
    - Configuration, data, and release: `references/configuration-data-release.md`
+   - Packaging and deployment: `references/winforms-packaging-deployment.md`
+   - Medical or sensitive data: `references/medical-data-security.md`
    - Threading, logging, release: `references/threading-logging-release.md`
    - Acceptance review: `references/csharp-acceptance-checklist.md`
 4. Implement with the repo's existing conventions.
@@ -44,6 +50,7 @@ Use this skill to turn Codex into a C# desktop application collaborator with exp
 - WPF defaults to MVVM.
 - WinForms defaults to MVP.
 - WinForms fixed layout must stay Visual Studio Designer-safe.
+- WinForms UI work must identify the project's scaling policy; fixed industrial screens may use `AutoScaleMode = Font` with System/SystemAware DPI when target displays are verified.
 - WPF fixed layout should live in XAML, with binding/templates for dynamic content.
 - UI must not directly call real device SDKs, databases, or long-running algorithms.
 - Real devices and simulated devices should be swappable through abstractions.
@@ -60,6 +67,8 @@ For implementation tasks, do not claim done until:
 - Device-dependent paths have mock/simulator/protocol-replay coverage when real hardware is unavailable.
 - Device, data-processing, workflow, and save/export paths include normal, boundary, and failure coverage when they are touched.
 - UI work has at least code-level layout checks, and runtime visual verification when the environment allows it.
+- Hardware-dependent work has real-device evidence or a documented replay/simulator substitute plus remaining physical blockers.
+- Packaging or deployment work records target machine, dependencies, package path, and startup evidence.
 - Remaining manual checks are listed.
 - Feature status, progress, or handoff records are updated when the task is substantial.
 
@@ -69,6 +78,7 @@ Use `assets/templates/` when creating new project documentation or scaffolding:
 
 - `csharp-solution-structure.md`
 - `winforms-mvp-template.md`
+- `winforms-mainform-layout.md`
 - `wpf-mvvm-template.md`
 - `device-service-template.md`
 - `device-protocol-template.md`
