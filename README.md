@@ -55,7 +55,7 @@ skills/      专项 Codex skills 草案
 
 通用 harness 安装需要：
 
-- Windows PowerShell。
+- Windows PowerShell 5.1（默认兼容桌面 .NET Framework 场景）或 PowerShell 7.6（优先用于 .NET 运行时场景）。
 - Git，只有从 GitHub clone 时需要。
 - 目标项目目录的写入权限。
 
@@ -164,7 +164,7 @@ Harness 默认不会自动提交 Git。要启用这个工作流，需要在任�
 手动执行方式：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "feat(scope): summary" -Paths .\src\File.cs .\tests\FileTests.cs -VerifyCommand "dotnet build", "dotnet test"
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "feat(scope): summary" -Paths .\src\File.cs .\tests\FileTests.cs -VerifyCommand "dotnet build", "dotnet test"
 ```
 
 如果验证已经刚刚运行过，可以改用 `-VerificationAlreadyRun`。默认应传明确的 `-Paths`，只在人工检查过所有 dirty files 后才使用 `-All`。
@@ -172,13 +172,13 @@ powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message
 如需同时写入 `feature_list.json` evidence：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "feat(scope): summary" -Paths .\src\File.cs -VerificationAlreadyRun -EvidenceFeatureId feat-001 -EvidenceType review -RecordProgress
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "feat(scope): summary" -Paths .\src\File.cs -VerificationAlreadyRun -EvidenceFeatureId feat-001 -EvidenceType review -RecordProgress
 ```
 
 单独追加 evidence：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\update-evidence.ps1 -FeatureId feat-001 -Type test -Result passed -Command "dotnet test" -Notes "Unit tests passed."
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\update-evidence.ps1 -FeatureId feat-001 -Type test -Result passed -Command "dotnet test" -Notes "Unit tests passed."
 ```
 
 ### Harness 升级差异扫描

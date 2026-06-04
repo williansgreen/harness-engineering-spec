@@ -2,8 +2,8 @@
 
 ## System
 
-- Development OS: Windows PowerShell compatible environment.
-- Target OS: Any environment with PowerShell.
+- Development OS: Windows PowerShell 5.1 compatible environment.
+- Target OS: Any environment with PowerShell 5.1 or 7.6 (runtime chosen by project type).
 - Requires administrator privileges: No.
 
 ## Runtime
@@ -22,4 +22,3 @@
 
 - Name: None.
 - Simulation or mock strategy: Not needed.
-

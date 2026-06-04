@@ -5,6 +5,5 @@ This example shows the smallest practical harness for a documentation-only proje
 It should pass:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ..\..\scripts\check-harness.ps1 -TargetPath .
+powershell -NoProfile -Version 5.1 -ExecutionPolicy Bypass -File ..\..\scripts\check-harness.ps1 -TargetPath .
 ```
-

@@ -12,4 +12,3 @@ dotnet format .\InstrumentControl.sln --verify-no-changes
 - Tests pass.
 - No secrets in config.
 - No real hardware dependency in CI.
-

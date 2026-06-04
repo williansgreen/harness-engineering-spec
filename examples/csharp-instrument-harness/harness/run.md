@@ -12,4 +12,3 @@ dotnet run --project .\src\InstrumentControl.UI.Wpf\InstrumentControl.UI.Wpf.csp
 - Data directory writable.
 - Simulated device mode available.
 - Real device mode disabled unless hardware is available.
-

@@ -27,7 +27,7 @@
         {
           "type": "quality",
           "result": "passed",
-          "command": "powershell -ExecutionPolicy Bypass -File ..\\..\\scripts\\check-harness.ps1 -TargetPath .",
+          "command": "powershell -NoProfile -Version 5.1 -ExecutionPolicy Bypass -File ..\\..\\scripts\\check-harness.ps1 -TargetPath .",
           "timestamp": "2026-05-18",
           "artifact": "",
           "notes": "Minimal harness example is expected to pass the harness audit."

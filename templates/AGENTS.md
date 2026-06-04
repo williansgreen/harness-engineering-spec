@@ -34,13 +34,13 @@ Git checkpointing is opt-in. Do not create commits automatically unless the user
 Preferred helper after verification:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "<type(scope): summary>" -Paths <files...> -VerificationAlreadyRun
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "<type(scope): summary>" -Paths <files...> -VerificationAlreadyRun
 ```
 
 Record feature evidence with:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\update-evidence.ps1 -FeatureId <id> -Type test -Result passed -Command "<command>" -Notes "<short evidence>"
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\update-evidence.ps1 -FeatureId <id> -Type test -Result passed -Command "<command>" -Notes "<short evidence>"
 ```
 
 When enabled, create a local commit only after a coherent, independently verifiable feature or fix:

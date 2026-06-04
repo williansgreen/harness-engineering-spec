@@ -38,19 +38,19 @@
 推荐通过项目内 helper 执行：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "<type(scope): summary>" -Paths <files...> -VerificationAlreadyRun
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "<type(scope): summary>" -Paths <files...> -VerificationAlreadyRun
 ```
 
 也可以把验证命令交给 helper 运行：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "fix(ui): prevent clipped controls" -Paths .\src\MainForm.cs .\src\MainForm.Designer.cs -VerifyCommand "dotnet build", "dotnet test"
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "fix(ui): prevent clipped controls" -Paths .\src\MainForm.cs .\src\MainForm.Designer.cs -VerifyCommand "dotnet build", "dotnet test"
 ```
 
 如需同时记录 evidence：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "fix(ui): prevent clipped controls" -Paths .\src\MainForm.cs .\src\MainForm.Designer.cs -VerificationAlreadyRun -EvidenceFeatureId feat-ui -EvidenceType review -RecordProgress
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\harness\git-save-feature.ps1 -Message "fix(ui): prevent clipped controls" -Paths .\src\MainForm.cs .\src\MainForm.Designer.cs -VerificationAlreadyRun -EvidenceFeatureId feat-ui -EvidenceType review -RecordProgress
 ```
 
 启用后，checkpoint 必须满足：

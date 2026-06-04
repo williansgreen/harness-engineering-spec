@@ -21,7 +21,7 @@
 
 - Highest-priority unfinished feature: `arch-001`
 - Why this is next: solution structure is the base for every later feature.
-- What counts as passing: solution exists and `dotnet build` plus `dotnet test` pass.
+- What counts as passing: solution exists and `dotnet build .\InstrumentControl.sln` plus `dotnet test .\InstrumentControl.sln` pass.
 - Files or areas not to touch: do not integrate real vendor SDK before simulated device abstraction exists.
 
 ## Commands
@@ -30,4 +30,3 @@
 - Run: see `harness/run.md`
 - Test: see `harness/test.md`
 - Targeted debug: see `harness/quality.md`
-

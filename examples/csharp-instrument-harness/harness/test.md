@@ -12,4 +12,3 @@ dotnet test .\InstrumentControl.sln
 - Application workflow tests.
 - Devices simulator and protocol tests.
 - Substitute verification when real hardware is unavailable.
-

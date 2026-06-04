@@ -80,6 +80,10 @@ function Add-CheckpointRecord([string]$Path, [string]$Hash, [string]$CommitMessa
     Add-Content -LiteralPath $Path -Value "- $timestamp $Hash $CommitMessage"
 }
 
+function Invoke-VerificationCommand([string]$Command) {
+    Invoke-Expression $Command
+}
+
 $repoRoot = (& git rev-parse --show-toplevel 2>$null)
 if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($repoRoot)) {
     throw "This command must run inside a Git repository."
@@ -128,7 +132,7 @@ if ($DryRun) {
 if ($VerifyCommand.Count -gt 0) {
     foreach ($command in $VerifyCommand) {
         Write-Host "[verify] $command"
-        & powershell -NoProfile -ExecutionPolicy Bypass -Command $command
+        Invoke-VerificationCommand $command
         if ($LASTEXITCODE -ne 0) {
             if ($Wip) {
                 Write-Warning "Verification failed but -Wip was set: $command"

@@ -16,14 +16,14 @@
       "status": "not_started",
       "risk_level": "medium",
       "hardware_required": false,
-      "simulation_strategy": "Use dotnet build/test and simulated device abstractions before any real SDK integration.",
+      "simulation_strategy": "Run dotnet build/test and simulated device abstractions before any real SDK integration.",
       "platform_bitness": "unknown",
       "data_retention": "none",
       "dependencies": [],
       "verification": [
         "Create .sln with src and tests projects.",
-        "Run dotnet build.",
-        "Run dotnet test."
+        "Run dotnet build .\\InstrumentControl.sln.",
+        "Run dotnet test .\\InstrumentControl.sln."
       ],
       "evidence": [],
       "notes": "Use csharp-winforms-wpf references/solution-structure.md."
