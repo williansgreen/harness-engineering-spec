@@ -1,5 +1,6 @@
 param(
-    [string]$SkillValidatorPath = ""
+    [string]$SkillValidatorPath = "",
+    [string]$PythonPath = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -15,6 +16,60 @@ function Add-CheckError([string]$Message) {
 
 function Add-CheckWarning([string]$Message) {
     $script:warnings.Add($Message) | Out-Null
+}
+
+function Get-PythonWithYaml([string]$Preferred) {
+    # The validator needs PyYAML. Plain `python` may resolve to an
+    # interpreter without it, and `py` follows the validator's
+    # `#!/usr/bin/env python3` shebang straight back to whatever
+    # `python3` happens to be first on PATH. Resolve a real interpreter
+    # and prove it can import yaml before using it.
+    $candidates = New-Object System.Collections.Generic.List[string]
+
+    if (-not [string]::IsNullOrWhiteSpace($Preferred)) {
+        $candidates.Add($Preferred) | Out-Null
+    }
+
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $pyExe = & py -3 -c "import sys; print(sys.executable)" 2>&1
+        if ($LASTEXITCODE -eq 0 -and $pyExe) {
+            $resolved = ($pyExe | Select-Object -Last 1).ToString().Trim()
+            if ($resolved) { $candidates.Add($resolved) | Out-Null }
+        }
+    } catch {
+    } finally {
+        $ErrorActionPreference = $prevEap
+    }
+
+    foreach ($name in @("python", "python3")) {
+        $cmd = Get-Command $name -ErrorAction SilentlyContinue
+        if ($cmd -and $cmd.Source) { $candidates.Add($cmd.Source) | Out-Null }
+    }
+
+    $localRoot = Join-Path $env:LOCALAPPDATA "Programs\Python"
+    if (Test-Path -LiteralPath $localRoot) {
+        Get-ChildItem -LiteralPath $localRoot -Filter "python.exe" -Recurse -Depth 1 -ErrorAction SilentlyContinue |
+            ForEach-Object { $candidates.Add($_.FullName) | Out-Null }
+    }
+
+    foreach ($candidate in ($candidates | Select-Object -Unique)) {
+        if (-not (Test-Path -LiteralPath $candidate)) { continue }
+        $prevEap = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        try {
+            $null = & $candidate -c "import yaml" 2>&1
+            $ok = ($LASTEXITCODE -eq 0)
+        } catch {
+            $ok = $false
+        } finally {
+            $ErrorActionPreference = $prevEap
+        }
+        if ($ok) { return $candidate }
+    }
+
+    return $null
 }
 
 function Test-PowerShellFile([string]$Path) {
@@ -139,9 +194,35 @@ if ([string]::IsNullOrWhiteSpace($SkillValidatorPath)) {
 
 if (-not [string]::IsNullOrWhiteSpace($SkillValidatorPath)) {
     $skillPath = Join-Path $repoRoot "skills/csharp-winforms-wpf"
-    & python $SkillValidatorPath $skillPath
-    if ($LASTEXITCODE -ne 0) {
-        Add-CheckError "Skill validation failed: $skillPath"
+    $python = Get-PythonWithYaml -Preferred $PythonPath
+    if ($null -eq $python) {
+        Add-CheckWarning "No Python with PyYAML found; skipped skill validation. Run 'pip install pyyaml' or pass -PythonPath."
+    } else {
+        $prevEap = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        try {
+            $validatorOutput = & $python $SkillValidatorPath $skillPath 2>&1
+            $validatorExit = $LASTEXITCODE
+        } finally {
+            $ErrorActionPreference = $prevEap
+        }
+        if ($validatorExit -ne 0) {
+            # Take the message off each record; Out-String would drag in
+            # CategoryInfo/FullyQualifiedErrorId noise around the real cause.
+            $lines = @($validatorOutput | ForEach-Object {
+                if ($_ -is [System.Management.Automation.ErrorRecord]) {
+                    $_.Exception.Message
+                } else {
+                    $_.ToString()
+                }
+            } | Where-Object { $_ -and $_.Trim() })
+            $detail = ($lines -join "`n  ").Trim()
+            if ($detail) {
+                Add-CheckError "Skill validation failed: $skillPath`n  $detail"
+            } else {
+                Add-CheckError "Skill validation failed: $skillPath (exit $validatorExit)"
+            }
+        }
     }
 } else {
     Add-CheckWarning "Skill validator not found; skipped quick_validate.py."
