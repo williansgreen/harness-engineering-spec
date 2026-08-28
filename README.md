@@ -295,6 +295,22 @@ skill 安装后没有触发：
 这是新安装模板的正常状态。把 harness/build.md、harness/test.md、harness/run.md 等文件中的示例命令替换成目标项目真实命令后再检查。
 ```
 
+`check-spec.ps1` 跳过 skill 校验：
+
+```text
+No Python with PyYAML found; skipped skill validation.
+```
+
+skill 校验器 `quick_validate.py` 需要 PyYAML。脚本会自动探测可用解释器（`py -3` 解析出的实际路径、PATH 上的 `python` / `python3`、`%LOCALAPPDATA%\Programs\Python` 下的安装），并逐个验证能否 `import yaml`。全部不可用时降级为 warning，不会让整体检查失败。
+
+装了多个 Python 时（例如 PATH 上先命中 msys64 的 `python`），可以显式指定：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\check-spec.ps1 -PythonPath "C:\path	o\python.exe"
+```
+
+注意 `py quick_validate.py` 不一定可用：该脚本的 shebang 是 `#!/usr/bin/env python3`，py launcher 会据此回退到 PATH 上的 `python3`，可能仍是没有 PyYAML 的那个。
+
 ### 适用范围和 License
 
 本仓库适用于 coding-agent 项目 harness 和 C# WinForms/WPF 上位机软件协作流程，不是 NI TestStand、硬件在环测试平台或通用测试框架的替代品。
