@@ -299,7 +299,7 @@ skill 安装后没有触发：
 
 本仓库适用于 coding-agent 项目 harness 和 C# WinForms/WPF 上位机软件协作流程，不是 NI TestStand、硬件在环测试平台或通用测试框架的替代品。
 
-当前仓库尚未声明开源许可证。公开使用、分发或改造前，建议仓库所有者补充 `LICENSE` 文件。
+本项目采用 [MIT License](LICENSE)。
 
 ## 和 codex_docs 的关系
 
