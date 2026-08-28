@@ -84,6 +84,8 @@ docs/ui-design/
 
 Preserve existing project locations and formats when present. Do not overwrite approved artifacts without recording the change and its reason.
 
+Artifacts belong to the project or to this skill's source repository. Never write them into an installed copy of this skill — see `references/pattern-library.md` → Where observations live.
+
 ## Output quality
 
 - Lead with the current decision or gate result.

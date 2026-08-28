@@ -209,12 +209,23 @@ if (-not [string]::IsNullOrWhiteSpace($SkillValidatorPath)) {
     } else {
         foreach ($skillPath in $skillPaths) {
             $prevEap = $ErrorActionPreference
+            $prevUtf8 = $env:PYTHONUTF8
             $ErrorActionPreference = 'Continue'
+            # The validator opens files with Python's default encoding, which is
+            # the ANSI code page on Windows (gbk on a zh-CN system). Skill docs are
+            # UTF-8 and legitimately contain characters like em dashes, so force
+            # UTF-8 mode rather than restricting what the docs may contain.
+            $env:PYTHONUTF8 = '1'
             try {
                 $validatorOutput = & $python $SkillValidatorPath $skillPath 2>&1
                 $validatorExit = $LASTEXITCODE
             } finally {
                 $ErrorActionPreference = $prevEap
+                if ($null -eq $prevUtf8) {
+                    Remove-Item Env:PYTHONUTF8 -ErrorAction SilentlyContinue
+                } else {
+                    $env:PYTHONUTF8 = $prevUtf8
+                }
             }
             if ($validatorExit -ne 0) {
                 # Take the message off each record; Out-String would drag in

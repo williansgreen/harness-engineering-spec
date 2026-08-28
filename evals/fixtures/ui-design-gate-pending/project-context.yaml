@@ -1,0 +1,94 @@
+schema_version: 1
+
+project:
+  name: "SampleAnalyzer-Fixture-Pending"
+  product_scope: "Bench-top sample analyzer control software (fictional, for skill evaluation)"
+  design_scope: "Continuous acquisition screen"
+  owners: ["design-lead"]
+
+evidence:
+  sources:
+    - id: E-001
+      type: procedure
+      location: "docs/sop/continuous-run.md"
+      owner: "lab-lead"
+      confidence: high
+    - id: E-002
+      type: interview
+      location: "notes/operator-interview-2.md"
+      owner: "design-lead"
+      confidence: medium
+
+users:
+  primary_roles: ["operator"]
+  secondary_roles: ["service engineer"]
+  operating_conditions:
+    attention_load: "Operator monitors two instruments and leaves the station periodically"
+    training_level: "Trained on SOP, not on internals"
+    gloves_or_touch: true
+    viewing_distance: "60-80 cm, occasionally checked from 2 m"
+    environment_notes: "Bench lighting varies; instrument shares a bench with a centrifuge"
+
+workflow:
+  dominant_shape: continuous_process
+  primary_tasks:
+    - "Start a run and confirm it reached steady state"
+    - "Notice and respond to an alarm within one minute"
+    - "Stop safely and confirm data was saved"
+  stages: ["prepare", "acquire", "monitor", "stop", "save"]
+  completion_definition: "Run reaches target duration and data is written to the run directory"
+  interruption_and_recovery:
+    - "Operator leaves the station for up to 10 minutes"
+    - "Sensor disconnect mid-run"
+
+states:
+  connection: ["disconnected", "connecting", "connected"]
+  device: ["idle", "warming", "ready", "running", "faulted"]
+  workflow: ["not_started", "running", "stopping", "completed", "aborted"]
+  data: ["live", "buffered", "stale", "unsaved"]
+  alarm: ["none", "advisory", "warning", "alarm"]
+  persistence: ["unsaved", "saving", "saved", "save_failed"]
+
+critical_actions:
+  - id: A-01
+    name: "Stop run"
+    risk: R1
+    consequence: "Partial run; sample may need repreparation"
+    reversibility: "Run cannot resume; must restart"
+    detectability: "Immediate"
+  - id: A-02
+    name: "Discard unsaved run data"
+    risk: R2
+    consequence: "Irreversible loss of an acquisition that consumed sample"
+    reversibility: "None"
+    detectability: "May go unnoticed until export"
+
+constraints:
+  minimum_window: "1366x768"
+  default_window: "1920x1080"
+  scaling: ["100%", "150%"]
+  languages: ["zh-CN", "en-US"]
+  input: ["mouse", "keyboard", "gloved touch"]
+
+ui_implementation:
+  ui_framework: wpf
+  target_framework: "net8.0-windows"
+  source_paths: ["src/SampleAnalyzer.UI.Wpf"]
+  relevant_existing_views: ["Views/AcquisitionView.xaml"]
+  implementation_skill: csharp-winforms-wpf
+
+assumptions:
+  - "Operator can always hear an audible alarm — UNVERIFIED, bench is noisy"
+
+open_questions:
+  - question: "Is acknowledgement of a warning required before stopping?"
+    owner: "lab-lead"
+
+approvals:
+  wireframe:
+    result: pending
+    approver: ""
+    date: ""
+    artifact_revision: "wireframe-r3"
+    accepted_assumptions: []
+    open_findings: []

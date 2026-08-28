@@ -104,6 +104,20 @@ Promotion requires applicability conditions, contrary evidence, and a measurable
 
 ### Where observations live
 
+**Do not write observations into an installed copy of this skill.** A skill installed
+under `~/.claude/skills/`, `$CODEX_HOME/skills/`, or an equivalent location is a
+read-only copy. The next install overwrites it, the change is invisible to every other
+machine, and copies drift apart silently. If you are reading this file from an install
+path, you cannot durably record anything here.
+
+Write instead to one of:
+
+| Situation | Destination |
+| --- | --- |
+| Working in a project repository | that project's `docs/ui-design/pattern-observations.md` |
+| Working in this skill's source repository | `skills/instrument-ui-design/`, through a normal commit |
+| Neither is reachable | output the observation in full and say it must be filed in the source repository; do not silently edit a local copy |
+
 An observation without a destination is lost work. Route it by scope:
 
 | Scope | Destination | Who decides |

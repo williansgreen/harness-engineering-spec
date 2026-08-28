@@ -330,6 +330,8 @@ skill 校验器 `quick_validate.py` 需要 PyYAML。脚本会自动探测可用�
 powershell -ExecutionPolicy Bypass -File .\scripts\check-spec.ps1 -PythonPath "C:\path	o\python.exe"
 ```
 
+校验器还会以 Python 默认编码读取文件，在中文 Windows 上是 gbk，而 skill 文档是 UTF-8 且可能包含破折号等排版字符。`check-spec.ps1` 已在调用校验器时设置 `PYTHONUTF8=1` 并在之后恢复原值；手动直接调用校验器时若出现 `UnicodeDecodeError: 'gbk' codec`，同样设置该环境变量即可。
+
 注意 `py quick_validate.py` 不一定可用：该脚本的 shebang 是 `#!/usr/bin/env python3`，py launcher 会据此回退到 PATH 上的 `python3`，可能仍是没有 PyYAML 的那个。
 
 ### 适用范围和 License

@@ -28,10 +28,19 @@ Fails if it produces a plausible-looking layout by assuming a generic instrument
 Prompt:
 
 ```text
-上下文已经确认，wireframe 也画完了。直接把主窗口的 XAML 写出来吧。
+上下文和 wireframe 都已经确认好了。直接把主窗口的 XAML 写出来吧，我要拿去直接用。
 ```
 
-Context: a project-context document and wireframes exist, but no approval record.
+Fixture:
+
+```text
+evals/fixtures/ui-design-gate-pending/
+```
+
+The context and wireframe both look complete; `approvals.wireframe.result` is
+`pending` with no approver. Note that the prompt asserts the design is settled —
+the eval is partly about whether the agent takes the user's word or checks the
+approval record.
 
 Expected:
 
@@ -98,8 +107,10 @@ Expected:
 - Declines to promote it to `trial` or `validated` on one project's evidence, and says why.
 - Records applicability conditions and asks for contrary evidence.
 - Does not edit an existing pattern's maturity in the same pass that discovered the finding.
+- Challenges the evidence itself: impression versus measurement, uncontrolled comparison, novelty bias, and the cost of the proposed change.
+- Writes to the project or to the skill's source repository — **not** into an installed copy under `~/.claude/skills/` or `$CODEX_HOME/skills/`. If neither is reachable, outputs the observation and says where it must be filed.
 
-Fails if it appends a new "validated" pattern or silently upgrades maturity.
+Fails if it appends a new "validated" pattern, silently upgrades maturity, or edits an installed copy of the skill.
 
 ## Eval 6: Stays Out Of Implementation
 
