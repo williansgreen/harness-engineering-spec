@@ -17,6 +17,14 @@ The context is sufficient for Gate 1 only when it identifies:
 
 Do not invent a medical, optical, chemical, or industrial profile. Record domain nouns under terminology, parameters, data, devices, and procedures.
 
+### Hard stop before layout
+
+Do not select a pattern or draw a wireframe when the evidence supplies only a product name, device category, or industry label and does not identify a concrete primary task or workflow shape. Return a short context-gap packet instead. Ask for the smallest facts that decide the design, and offer to create `project-context.yaml` from the template.
+
+An industry label is not a proxy for workflow, risk, regulation, or user role. In particular, a request for a "medical" or "industry-standard" interface does not authorize a medical profile, a compliance checklist, cited-standard conformance, or an assumed clinical workflow. State that this skill does not perform hazard analysis or regulatory approval. Ask which actions are critical and, for each one, obtain consequence, reversibility, detectability, frequency/time pressure, authorization/audit expectations, recovery, and non-UI safeguards.
+
+A concrete workflow description is sufficient to proceed with a candidate pattern before every lower-impact field is known. When the prompt names continuous acquisition, a batch process, a queue, or another defensible workflow shape, create the candidate architecture and low-fidelity wireframe instead of returning only questions. Record unresolved display, terminology, operating-condition, and risk details as assumptions or open findings. Keep consequential actions at `risk: unknown`; never use this allowance to guess severe consequences or claim a safeguard is adequate.
+
 ## Risk scale
 
 Use this as a conversation aid, not as a substitute for formal hazard analysis:
@@ -62,4 +70,3 @@ When context changes after Gate 1:
 2. Identify affected tasks, states, actions, screens, and acceptance criteria.
 3. Revise the wireframe or interaction specification.
 4. Re-run the affected gate; preserve the prior approval record.
-

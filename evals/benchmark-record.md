@@ -6,6 +6,62 @@ Newest first.
 
 ---
 
+## 2026-08-28 — instrument-ui-design, Evals 3, 6, 7, and 8
+
+- Tool or model: Codex CLI `0.150.1`, `gpt-5.6-sol`, high reasoning, fresh
+  `--ephemeral` read-only session per eval.
+- Claude Code note: Opus was attempted first but hit the account monthly spend limit
+  before producing output, so that attempt was not scored.
+- Baseline revision: repository commit `b29ced2`; installed Codex and Claude copies
+  hash-matched the source.
+- Detailed artifact: `evals/2026-08-28-instrument-ui-design-evals-3-6-7-8.md`.
+- Validation: `scripts/check-spec.ps1` passed after both fix rounds; final source and
+  both installed copies hash-match across all 10 skill files.
+
+### Results
+
+| Eval | Baseline | First rerun | Final |
+| --- | --- | --- | --- |
+| 3 — Domain label | fail | fail | **pass** |
+| 6 — Implementation boundary | fail | fail | **pass** |
+| 7 — Framework-neutral handoff | fail | fail | **pass** |
+| 8 — Workflow-driven structure | **pass** | not rerun | **pass** |
+
+Baseline score: **1/4**. Final score after fixes: **4/4**.
+
+### What the failures found
+
+- Eval 3 showed that the minimum-context rule did not hard-stop a layout based only on
+  an industry label. The first fix stopped the layout, and the first rerun then showed
+  that the final response still compressed away required action-risk fields.
+- Eval 6 showed that a boundary statement alone did not prevent a full MVVM/XAML plan.
+  The first fix prevented that over-delivery, but over-corrected by withholding the
+  candidate batch wireframe the design skill still owned.
+- Eval 7 showed that recognizing WinForms in prose was insufficient verification: the
+  context key and exact WinForms reference set must be observable in the output.
+- Eval 8 confirmed that the original workflow/pattern behavior was already sound and did
+  not need a compensating rule change.
+
+### Fix accepted
+
+The smallest accepted update touches only the design/implementation boundary and context
+decision contract:
+
+- domain-label-only input now hard-stops before layout and requires the complete
+  per-action evidence questions plus a hazard/regulatory disclaimer;
+- a concrete workflow now requires a candidate design while unknown consequences remain
+  visibly `risk: unknown`;
+- design-plus-implementation prompts cannot elicit folders, classes, MVVM/MVP,
+  resource dictionaries, bindings, commands, tokens, controls, or code;
+- known frameworks must be recorded exactly and accompanied by a non-executable routing
+  note naming the correct implementation reference files.
+
+- Missed issue after the final rerun: none against these eval rubrics.
+- False positive after the final rerun: none.
+- Further skill update required for Evals 3, 6, 7, and 8: no.
+
+---
+
 ## 2026-08-28 — instrument-ui-design, Eval 2 and Eval 5
 
 - Tool or model: Claude Opus 5, fresh agent per eval, no prior exposure to the skill.
