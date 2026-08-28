@@ -4,7 +4,12 @@ Use this reference when creating or changing `.sln`, `.csproj`, shared build pro
 
 ## Target Framework
 
-New formal desktop projects should use the current supported .NET Windows desktop target, or the target explicitly required by the project.
+New formal desktop projects should use the current supported .NET Windows desktop target, or the target explicitly required by the project. Prefer the current LTS. Check the official support policy before choosing:
+
+- <https://learn.microsoft.com/dotnet/core/releases-and-support>
+- <https://dotnet.microsoft.com/platform/support/policy/dotnet-core>
+
+When lab machines, Visual Studio, vendor SDKs, drivers, or deployment targets cannot yet run the current LTS, staying on an older still-supported LTS is acceptable — but record the reason and the upgrade plan in project docs or a decision record.
 
 Before selecting or changing the target framework:
 
@@ -36,6 +41,7 @@ Rules:
 
 - x64 vendor SDKs usually require x64 projects and release output.
 - x86 vendor SDKs usually require x86 projects and release output.
+- With no vendor bitness constraint, prefer AnyCPU or x64.
 - If SDK bitness is unknown, do not casually choose AnyCPU.
 - Record the reason in project docs, release docs, or harness notes.
 
@@ -68,7 +74,7 @@ Package rules:
 
 ## CI
 
-Windows desktop CI should run on Windows.
+Windows desktop CI should run on Windows. For GitHub Actions that means a workflow at `.github/workflows/dotnet-ci.yml` with `runs-on: windows-latest`.
 
 Minimum CI commands:
 

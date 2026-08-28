@@ -2,6 +2,50 @@
 
 本文件记录从 `D:\MyProjects\codex_docs` 拆到本仓库后的归属边界。
 
+## 迁移状态
+
+C# 专项规则的迁移**已执行完成**。codex_docs 的以下 13 篇 `docs/` 已改为指针，规则内容只存在于本仓库 skill：
+
+```text
+docs/05  docs/18  docs/19  docs/20  docs/21  docs/22
+docs/23  docs/24  docs/25  docs/26  docs/27  docs/28  docs/29
+```
+
+迁移是**双向合并**，不是单向删除。合并中发现两库互有强弱：
+
+- codex_docs 更强、已补入本仓库的内容包括：启动时配置校验、校准参数字段与危险操作、平台位数决策规则、厂商依赖记录项、数据留存字段、算法与报告溯源、向后兼容要求、线程与长跑验收项、日志分类/级别/目录/滚动/审计、参数控件与提示控件分工、状态展示表、空状态与错误级别、`LicenseManager` 设计时保护、第三方控件隔离、View 接口形态、事件生命周期与退订、UI 视觉迭代上限表。
+- 本仓库更强、已让 codex_docs 旧版作废的内容包括：流程控制的单写者/稳定标识/资源仲裁/停止阶段/checkpoint 恢复、打包方案决策矩阵、状态模型（13 状态）、图表刷新规则。
+
+### 已裁决的规则冲突
+
+| 主题 | 两方主张 | 裁决 |
+| --- | --- | --- |
+| WinForms 缩放策略 | codex_docs：默认 `AutoScaleMode = Dpi` + `SetHighDpiMode(PerMonitorV2)`；本仓库旧版：固定工控屏用 `Font` + System/SystemAware | **采用 codex_docs 主张，本仓库已改为 `Dpi` + PerMonitorV2** |
+
+裁决依据是实际项目经验，不是文档偏好。Designer 按属性名顺序序列化 `InitializeComponent()`，`AutoScaleDimensions` 和 `AutoScaleMode` 都排在 `Font` 之前：
+
+```csharp
+this.AutoScaleDimensions = new SizeF(7F, 17F);   // 基准，来自旧字体
+this.AutoScaleMode = AutoScaleMode.Font;
+this.Font = new Font("Microsoft YaHei UI", 10F); // 之后才赋值
+```
+
+`Font` 模式的缩放因子 = 当前字体尺寸 / `AutoScaleDimensions`。基准在字体被改之前就写死了，因此只要项目改过默认字体，基准就不再描述实际字体，缩放要么不生效要么按错误因子进行；继承窗体和嵌套 `UserControl` 各自带基准，问题更明显。`Dpi` 模式按设备 DPI 缩放，不依赖字体基准，没有这个失效路径。
+
+本仓库因此同步修改了 `references/winforms-dpi-scaling.md`、`winforms-ipc-ui-acceptance.md`、`csharp-acceptance-checklist.md`、`assets/templates/winforms-mainform-layout.md`、`SKILL.md` 和 `evals/csharp-winforms-wpf-evals.md`。
+
+### 映射表的三处修正
+
+下方原始映射有三条在执行中被证明不准确：
+
+| 原映射 | 实际处理 | 原因 |
+| --- | --- | --- |
+| `docs/31-strictness-levels.md` → `docs/03-harness-maturity-levels.md` | **不迁移，保留并加交叉引用** | 两者是不同维度：`docs/31` 是任务执行强度，`docs/03` 是仓库 harness 完备度。仅"UI 视觉迭代上限"迁入 `references/designer-xaml-rules.md` |
+| `docs/02-task-routing.md` → 本仓库 | **不迁移，保留并加交叉引用** | 它是 codex_docs 模板的内部导航表，指向自身 `prompts/` 和 `docs/`。通用路由原则在 `docs/09-task-routing.md`，且覆盖面更广 |
+| `checklists/*` 与 `templates/*` → skill | **不迁移，保留并加交叉引用** | checklists 是带勾选框的验收工具（88-111 项/篇），templates 是可复制的代码骨架；二者是工作用具与资产，与 skill 中供 agent 阅读的散文式规则性质不同 |
+
+`docs/16-codex-evaluation.md` 部分迁移：记录格式归 `docs/13-evaluation-records.md`，任务定义归 `evals/`，6 个模板自身的评估用例保留在 codex_docs。
+
 ## 进入通用 Harness 规范
 
 这些内容应抽象为语言无关规则：

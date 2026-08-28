@@ -45,12 +45,20 @@ Input height: 28-32
 Button height: 32-36
 Toolbar button: 32
 Status bar height: 32-40
+Control padding: 6-10
+Header bar height: 56-72
 Left navigation expanded: 200-240
 Left navigation collapsed: 56-72
 Right parameter panel: 280-380
 ```
 
 Treat these as starting points, not hard-coded requirements. Validate by running the UI when possible.
+
+These numbers are design-communication tokens, not physical pixels:
+
+- In WPF they are device-independent units.
+- In WinForms they are design-time sizes, scaled by the project's DPI policy. Read `references/winforms-dpi-scaling.md` before assuming a scaling mode.
+- Acceptance is judged by text not clipping, controls not overlapping, and the core workflow staying operable at high DPI — not by matching these numbers exactly.
 
 ## State Colors
 
@@ -73,7 +81,18 @@ Rules:
 
 - Color cannot be the only state signal.
 - Alarm and disabled colors must remain distinguishable.
-- Dark theme is optional; if added, chart colors and warning states require another visual check.
+- A project may tune these toward its brand, but the application should not become one saturated color.
+
+## Dark Theme
+
+Dark theme is optional and is not a default requirement. If the project adds one, re-verify:
+
+- Chart colors, against the dark background.
+- Alarm colors, which must stay unmistakable.
+- Table selection state, which must not disappear.
+- Device status colors, which must not become confusable.
+
+Screenshots and exported reports should still use a light, legible theme.
 
 ## Chart Colors
 
@@ -109,4 +128,6 @@ Resources/Spacing.xaml
 Resources/Typography.xaml
 Resources/ControlStyles.xaml
 ```
+
+Reference WPF styles through `StaticResource` or `DynamicResource`. Do not write ad-hoc colors and sizes into individual forms or windows.
 

@@ -13,6 +13,39 @@ Pick the packaging path from project constraints:
 
 Do not select an installer format before checking target machines, offline install needs, drivers, native DLLs, and update policy.
 
+Decide the deployment mode (framework-dependent, self-contained, single-file) from:
+
+- Whether target lab or IPC machines already have the required .NET runtime.
+- Whether installation must work offline.
+- Whether automatic update is required.
+- Whether vendor DLLs must ship with the application.
+- Whether installation requires administrator rights.
+
+## Platform Bitness
+
+Bitness is decided by the vendor SDK, not by convenience:
+
+- Vendor SDK is x64: target x64 across every project in the solution.
+- Vendor SDK is x86: target x86 across every project in the solution.
+- Do not use AnyCPU while the SDK bitness is still unconfirmed.
+
+A mismatch here surfaces as a `BadImageFormatException` only at runtime on the target machine, so confirm it before packaging.
+
+## Vendor Dependencies
+
+Record for each vendor dependency:
+
+- SDK name.
+- SDK version.
+- DLL list.
+- Bitness.
+- Installation method.
+- License.
+- Driver installation steps.
+- Whether installation requires a reboot.
+
+When DLLs must ship with the application, state their deployment path and their source-control policy.
+
 ## Required Release Inputs
 
 - Target framework and runtime requirement.

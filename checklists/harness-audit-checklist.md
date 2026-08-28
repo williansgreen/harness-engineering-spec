@@ -23,6 +23,10 @@
 - [ ] Test command is real and executable.
 - [ ] Quality or lint command is recorded when applicable.
 - [ ] Substitute verification is documented for missing external dependencies.
+- [ ] Evidence is fresh enough to match the current code/configuration.
+- [ ] The loop defines pass, continue, escalation, and stop conditions.
+- [ ] Repeated attempts must produce new evidence or test a new hypothesis.
+- [ ] Substitute evidence is not presented as real hardware, runtime UI, or deployment evidence.
 
 ## Scope
 
@@ -35,6 +39,7 @@
 - [ ] There is a standard startup check.
 - [ ] There is an end-of-session clean-state checklist.
 - [ ] New sessions can continue without relying on chat history.
+- [ ] Recovery checks whether repository and external state still match the checkpoint.
 
 ## Result
 

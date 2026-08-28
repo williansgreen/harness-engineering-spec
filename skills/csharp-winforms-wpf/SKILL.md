@@ -30,6 +30,7 @@ Use this skill to turn Codex into a C# desktop application collaborator with exp
    - UI layout, charts, and state: `references/ui-layout-state-charting.md`
    - Theme and design tokens: `references/theme-design-tokens.md`
    - Devices and validation: `references/instrument-device-validation.md`
+   - Runtime workflow loops, state machines, scheduling, stop, and recovery: `references/runtime-workflow-loop-engineering.md`
    - Hardware acceptance: `references/hardware-acceptance.md`
    - Serial/protocol replay: `references/serial-protocol-replay.md`
    - Feature validation checklists: `references/feature-validation-checklists.md`
@@ -52,6 +53,7 @@ Use the smallest relevant set:
 - Fixed IPC, DPI, or target screen acceptance: add `winforms-dpi-scaling.md` and `winforms-ipc-ui-acceptance.md`.
 - WPF UI: `wpf-mvvm.md`, `designer-xaml-rules.md`, and `theme-design-tokens.md` when visual tokens are reused.
 - Device communication: `instrument-device-validation.md`, `feature-validation-checklists.md`, and `serial-protocol-replay.md` when protocol behavior is touched.
+- Long-running experiments, cyclic acquisition, schedulers, state machines, runtime append, shared resources, safe stop, or crash recovery: `runtime-workflow-loop-engineering.md`, plus `instrument-device-validation.md` when physical devices are involved.
 - Real hardware verification: add `hardware-acceptance.md` and keep project-specific steps in `harness/hardware-test.md`.
 - Packaging or deployment: `winforms-packaging-deployment.md`, `configuration-data-release.md`, and project `harness/release.md`.
 - Sensitive data, accounts, reports, or biometrics: `medical-data-security.md` and project `harness/security-data.md`.
@@ -64,7 +66,7 @@ Use the smallest relevant set:
 - WPF defaults to MVVM.
 - WinForms defaults to MVP.
 - WinForms fixed layout must stay Visual Studio Designer-safe.
-- WinForms UI work must identify the project's scaling policy; fixed industrial screens may use `AutoScaleMode = Font` with System/SystemAware DPI when target displays are verified.
+- WinForms defaults to `AutoScaleMode = Dpi` with PerMonitorV2 set before WinForms initialization. `Font` scaling is unreliable once the default font is changed, because the Designer writes `AutoScaleDimensions` before `Font`.
 - WPF fixed layout should live in XAML, with binding/templates for dynamic content.
 - UI must not directly call real device SDKs, databases, or long-running algorithms.
 - Real devices and simulated devices should be swappable through abstractions.

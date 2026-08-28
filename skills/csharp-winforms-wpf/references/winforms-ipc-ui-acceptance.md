@@ -14,7 +14,7 @@ For fixed IPC WinForms applications, prefer documenting:
 - Whether maximize is allowed.
 - Whether each page may scroll.
 
-`AutoScaleMode = Font` with System/SystemAware DPI is acceptable when the deployment display is fixed and verified.
+`AutoScaleMode = Dpi` with PerMonitorV2 is the default here too. A fixed deployment display is a reason to document the target resolution, scale, and font — not a reason to fall back to font-based scaling, which breaks once the default font is changed. See `references/winforms-dpi-scaling.md`.
 
 ## Visual Acceptance
 

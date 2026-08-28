@@ -2,6 +2,8 @@
 
 每个 coding-agent harness 都应覆盖五个子系统。
 
+五个子系统共同构成一个执行闭环，而不是彼此独立的文件清单：Instructions 给出决策边界，State 提供当前事实，Scope 约束下一动作，Verification 产生反馈，Lifecycle 保存 checkpoint 并支持下一轮恢复。Loop engineering 是这五者的组合方式，见 `docs/15-loop-engineering.md`，不单列为第六个子系统。
+
 ## 1. Instructions
 
 让 agent 知道项目规则、入口文件、架构边界和工作方式。
@@ -54,6 +56,7 @@
 - 构建、运行、测试命令明确。
 - 无法真实验证时有替代验证。
 - 完成说明包含运行过的命令和剩余风险。
+- 验证结果会改变下一步决策，而不是只被追加到日志。
 
 ## 4. Scope
 
@@ -88,4 +91,4 @@
 - 新会话有标准启动路径。
 - 长任务中断后能恢复。
 - 每轮结束前留下可继续状态。
-
+- 恢复时会核对仓库和外部环境是否仍与 checkpoint 一致。

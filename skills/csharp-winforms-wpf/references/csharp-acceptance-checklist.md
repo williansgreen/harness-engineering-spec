@@ -35,7 +35,8 @@ Use this checklist before declaring a formal C# WinForms/WPF project initialized
 - [ ] WinForms forms and user controls have designer-safe parameterless constructors.
 - [ ] WinForms fixed layout avoids loops, runtime conditions, service calls, and helper-built whole-window layout in `.Designer.cs`.
 - [ ] WinForms dynamic controls mount into stable designer-created containers.
-- [ ] WinForms scaling policy is explicit: for fixed industrial screens, `AutoScaleMode = Font` with System/SystemAware DPI is documented or an exception is recorded.
+- [ ] WinForms scaling policy is explicit: `AutoScaleMode = Dpi` with PerMonitorV2 set before WinForms initialization, or a recorded exception.
+- [ ] If any form uses `AutoScaleMode = Font`, the reason is recorded and `AutoScaleDimensions` matches the font actually in use.
 - [ ] WinForms manifest, app config, startup DPI call, and form `AutoScaleMode` agree with the documented scaling policy.
 - [ ] WinForms internal controls use adaptive containers, `Dock`, `Anchor`, `MinimumSize`, and scrollable panels instead of normal-form absolute positioning.
 - [ ] WPF fixed shell is XAML-based.
@@ -59,6 +60,10 @@ Use this checklist before declaring a formal C# WinForms/WPF project initialized
 - [ ] Schema/software/algorithm/report versions are recorded when data is long-lived.
 - [ ] Data processing uses fixed samples, expected outputs, and tolerance when applicable.
 - [ ] Workflow/state-machine features cover legal transitions, illegal transitions, repeated clicks, stop/cancel, and failure recovery.
+- [ ] Long-running workflows have one transition authority, stable item identity, coherent snapshots, and no duplicate production driver.
+- [ ] Shared device resources have atomic arbitration and macro/sequence ownership where interleaving would be unsafe.
+- [ ] Stop/fault completion waits for the defined execution-track and dangerous-output conditions.
+- [ ] Recovery reconciles persisted execution state with fresh physical observations before resuming irreversible work.
 - [ ] Hardware-dependent features have real-device evidence or documented replay/simulator substitute evidence plus explicit physical blockers.
 - [ ] Protocol replay covers normal, timeout, error, corrupt frame, split/sticky frame, disconnect, and cancellation when protocol behavior is touched.
 

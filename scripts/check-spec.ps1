@@ -49,6 +49,7 @@ foreach ($file in $jsonFiles) {
 $requiredSpecFiles = @(
     "docs/13-evaluation-records.md",
     "docs/14-harness-skill-boundary.md",
+    "docs/15-loop-engineering.md",
     "templates/benchmark-record.md",
     "templates/feature-list.schema.json",
     "templates/harness-hardware-test.md",
@@ -59,6 +60,7 @@ $requiredSpecFiles = @(
     "templates/harness-update-evidence.ps1",
     "skills/csharp-winforms-wpf/references/project-setup-ci.md",
     "skills/csharp-winforms-wpf/references/feature-validation-checklists.md",
+    "skills/csharp-winforms-wpf/references/runtime-workflow-loop-engineering.md",
     "skills/csharp-winforms-wpf/references/winforms-dpi-scaling.md",
     "skills/csharp-winforms-wpf/references/winforms-packaging-deployment.md",
     "skills/csharp-winforms-wpf/references/serial-protocol-replay.md",

@@ -65,7 +65,7 @@ Expected:
 
 - Separates device state and workflow state.
 - Uses adaptive layout guidance.
-- Chooses an explicit scaling policy; fixed IPC-style WinForms can use `AutoScaleMode = Font` with System/SystemAware DPI when target displays are verified.
+- Chooses an explicit scaling policy; defaults to `AutoScaleMode = Dpi` with PerMonitorV2 set before WinForms initialization.
 - Uses shared visual tokens or resource-based styling.
 - Controls chart refresh rate separately from acquisition rate.
 - Avoids marketing-style UI.
@@ -87,14 +87,15 @@ Expected:
 Prompt:
 
 ```text
-Use $csharp-winforms-wpf to review a fixed industrial WinForms upper-computer UI. The project should use AutoScaleMode=Font, System/SystemAware DPI, Designer-visible containers, and no absolute positioning for ordinary internal controls.
+Use $csharp-winforms-wpf to review a fixed industrial WinForms upper-computer UI. The project uses AutoScaleMode=Font with a custom default font, Designer-visible containers, and no absolute positioning for ordinary internal controls.
 ```
 
 Expected:
 
 - Reads the WinForms DPI/scaling reference and Designer/XAML rules.
-- Accepts `AutoScaleMode = Font` with System/SystemAware DPI when manifest, app config, startup, and deployment display match.
-- Rejects accidental PerMonitorV2 or mixed scaling unless a verified target requires it.
+- Flags `AutoScaleMode = Font` combined with an overridden default font as unreliable, and explains that `AutoScaleDimensions` is serialized before `Font`.
+- Recommends `AutoScaleMode = Dpi` with PerMonitorV2, and treats the migration as a task needing layout re-verification.
+- Rejects mixed `Font`/`Dpi` scaling across related forms without a recorded reason.
 - Requires adaptive containers, `Dock`, `Anchor`, `MinimumSize`, and scrollable parameter panels.
 
 ## Eval 7: Serial Protocol Replay
@@ -141,3 +142,39 @@ Expected:
 - Classifies accounts, biometric features, audit logs, reports, upload credentials, and sample identifiers.
 - Flags sensitive data in Git, logs, packages, reports, and fixtures.
 - Requires retention, deletion, export, backup, and audit expectations to be recorded.
+
+## Eval 10: Broad Planning Request
+
+Prompt:
+
+```text
+设计一套关于 IPCE/SPV 的上位机软件，服务对象为高校老师。
+```
+
+Expected:
+
+- Plans first; does not jump into large amounts of code.
+- Produces user profile, core workflows, modules, and main-screen layout.
+- Recommends WPF MVVM or states why another UI framework fits better.
+- Recommends a layered multi-project solution for a formal project.
+- Covers device status, logging, data saving, and exception handling.
+- States assumptions explicitly instead of inventing unstated requirements.
+
+## Eval 11: Strictness Downgrade — Small Demo
+
+Prompt:
+
+```text
+请做一个一次性 C# WinForms Demo，用来模拟串口读数并显示到表格。
+```
+
+Expected:
+
+- Recognizes this as a low-strictness task and says so.
+- Allows a single project with folders; does not create `.sln` plus five layered projects and a test matrix.
+- Uses simple MVP or lightweight event forwarding.
+- Still keeps basic exception handling and logging.
+- Still avoids blocking the UI thread on serial reads.
+- States what would need to change before this code could be used in a formal project.
+
+This eval fails on over-engineering, not on under-delivery. A response that produces a full layered instrument solution for a throwaway demo is a failure.

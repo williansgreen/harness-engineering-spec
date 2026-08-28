@@ -12,16 +12,43 @@ Devices -> VendorDeviceService
 Devices -> SimulatedDeviceService
 ```
 
+Typical shape:
+
+```csharp
+public interface IDeviceConnection
+{
+    bool IsConnected { get; }
+    Task ConnectAsync(CancellationToken cancellationToken);
+    Task DisconnectAsync(CancellationToken cancellationToken);
+}
+
+public interface IMeasurementDevice
+{
+    Task ConfigureAsync(MeasurementSettings settings, CancellationToken cancellationToken);
+    IAsyncEnumerable<MeasurementPoint> StartMeasurementAsync(CancellationToken cancellationToken);
+    Task StopAsync(CancellationToken cancellationToken);
+}
+```
+
 Device services should handle:
 
 - Connect and disconnect.
 - Status query.
+- Connection state events.
 - Command encoding and response parsing.
 - Timeout.
 - Cancellation.
 - Retry policy.
 - Error code mapping.
+- Communication logging.
 - Resource release.
+
+Keep these four failure kinds distinguishable rather than collapsing them into one exception type:
+
+- User cancellation.
+- Device error.
+- Protocol error.
+- Data format error.
 
 ## Simulation
 

@@ -23,6 +23,34 @@ Rules:
 - Devices and Infrastructure provide concrete implementations.
 - Real, simulated, and replay devices should be swappable through configuration.
 
+## Where Interfaces Live
+
+- Business use-case interfaces: Application.
+- Device abstractions: Devices or `Application.Abstractions`.
+- Storage abstractions: Application or `Data.Abstractions`.
+- Logging: `ILogger<T>` or the project's single logging abstraction.
+- Domain models: Domain.
+
+Never expose a vendor SDK interface directly to the UI.
+
+## Device Mode Switching
+
+Select the device implementation from configuration rather than from a build flag:
+
+```json
+{
+  "Device": {
+    "Mode": "Simulated"
+  }
+}
+```
+
+```text
+Simulated
+Real
+Replay
+```
+
 ## WPF Startup
 
 Recommended:
@@ -33,6 +61,15 @@ Recommended:
 - Handle global exceptions.
 
 View constructors should remain light and design-time safe.
+
+View model rules:
+
+- Inject services through the view model constructor; a view never news up a business service.
+- A view model never touches concrete controls.
+- `Window`/`UserControl` constructors do `InitializeComponent()` plus design-time-safe initialization only.
+- `DataContext` may come from a DI-created window constructor, a view-model locator, a navigation service, or the composition root — but the design-time path must never depend on a real device, database, or network service.
+- Keep design-time and runtime view models separate; design-time data must not start real background work.
+- Route dialogs, file pickers, clipboard, and dispatcher access through a UI service abstraction rather than pushing them into Application or Domain.
 
 ## WinForms Startup
 
@@ -70,6 +107,7 @@ Requirements:
 
 - Log the exception.
 - Show a user-readable message.
+- Distinguish recoverable from unrecoverable failures.
 - Try to stop devices safely.
 - Do not expose raw stack traces to normal users.
 
@@ -84,4 +122,12 @@ On stop, cancel, error, and exit:
 - Close files.
 - Dispose SDK resources.
 - Warn before losing unsaved data.
+
+## Never
+
+- Reference the DI container from Domain.
+- New up a real device inside a view.
+- Hard-code a vendor SDK inside a view model or presenter.
+- Perform a slow connection inside a constructor.
+- Require a real device to be present before the main window can open.
 

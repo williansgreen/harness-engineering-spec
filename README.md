@@ -36,8 +36,9 @@ skills/      专项 Codex skills 草案
 2. `docs/02-minimum-viable-harness.md`
 3. `docs/04-file-contracts.md`
 4. `docs/05-verification-loop.md`
-5. `docs/14-harness-skill-boundary.md`
-6. `checklists/harness-audit-checklist.md`
+5. `docs/15-loop-engineering.md`
+6. `docs/14-harness-skill-boundary.md`
+7. `checklists/harness-audit-checklist.md`
 
 如果要把现有项目接入 harness，继续看：
 
@@ -48,6 +49,7 @@ skills/      专项 Codex skills 草案
 - `docs/12-forward-testing.md`
 - `docs/13-evaluation-records.md`
 - `docs/14-harness-skill-boundary.md`
+- `docs/15-loop-engineering.md`
 
 ## 快速使用
 

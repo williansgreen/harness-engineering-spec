@@ -99,6 +99,22 @@ Harness 应让 agent 在动手前识别任务类型。
 - 语言或设备通信通用规则写入对应 skill reference。
 - 不用 build-only evidence 标记硬件高风险功能 passing。
 
+## 长运行流程与状态机类
+
+触发：
+
+- 实验流程、批次流程或循环采集。
+- 状态机、调度器、轮询、暂停/继续。
+- 运行中追加、资源互斥、停止、故障恢复或断点续作。
+
+默认动作：
+
+- 先区分 agent verification loop、产品 runtime loop 和设备 feedback loop。
+- 通用执行闭环读取 `docs/15-loop-engineering.md` 与 `docs/05-verification-loop.md`。
+- C# WinForms/WPF 仪器运行时读取 `skills/csharp-winforms-wpf/references/runtime-workflow-loop-engineering.md`。
+- 项目实际 replay、故障注入、真机步骤和证据路径写入项目 harness。
+- 不用事件列表、UI 控件值或命令 ACK 代替权威运行快照和物理状态确认。
+
 ## 打包与部署类
 
 触发：

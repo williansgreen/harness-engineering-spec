@@ -47,6 +47,66 @@ Do not commit:
 - Real access tokens.
 - Private server addresses unless the project allows it.
 
+## Secret Handling
+
+Prefer:
+
+- Environment variables.
+- Machine-level secure storage.
+- User config directory outside source control.
+- A committed `.env.example` template that documents required keys without real values.
+
+Never:
+
+- Hard-code secrets.
+- Write secrets into logs.
+- Commit real keys.
+
+## Startup Validation
+
+Validate configuration at application startup, before device connection or workflow start:
+
+- The config file exists.
+- The format parses.
+- Required fields are present.
+- Device parameters are within legal ranges.
+- Target paths are writable.
+- The schema version is compatible with this build.
+
+A configuration error must produce an actionable message that names the file, the field, and the expected value. Do not fail silently and do not fall back to defaults for device or calibration parameters without telling the user.
+
+## Calibration Parameters
+
+Calibration records should carry:
+
+- Calibration ID.
+- Device ID.
+- Calibration timestamp.
+- Operator.
+- Calibration data.
+- Applicable range.
+- Expiry or validity state.
+
+These operations are dangerous and require an explicit permission check or user confirmation:
+
+- Overwriting calibration parameters.
+- Deleting a calibration record.
+- Importing an unknown calibration file.
+
+## What Retained Data Must Carry
+
+A saved experiment record should be interpretable years later without the original session. Capture:
+
+- Experiment parameters.
+- Sample information.
+- Raw data.
+- Processed data.
+- Software version.
+- Device information.
+- Calibration information.
+- Operation timestamp.
+- Operator.
+
 ## Versioned Data
 
 Long-lived experiment data should include:
@@ -68,11 +128,44 @@ Version when changing:
 - Algorithm output structure.
 - Report template fields.
 
+Adding an optional field may stay a PATCH or MINOR change.
+
 Do not silently overwrite old algorithm results after algorithm changes.
+
+## Algorithm And Report Provenance
+
+Retained algorithm output should record:
+
+- Algorithm name.
+- Algorithm version.
+- Input data file.
+- Parameters.
+- Output timestamp.
+- Error or quality metric.
+
+Generated reports should record:
+
+- Report template version.
+- Producing software version.
+- Generation timestamp.
+- Data source.
+
+After a template change, an old report must still be traceable to the template that produced it.
+
+## Backward Compatibility
+
+The software should keep the ability to:
+
+- Open old experiments.
+- Re-export old reports.
+- View old raw data.
+- Identify results produced by an old algorithm version.
+
+When results cannot be recomputed under the current version, say so explicitly instead of silently recomputing or hiding the data, for example: "This experiment was produced by an older algorithm version; this build can only display the original result."
 
 ## Migration
 
-Migration flow:
+Data migration flow:
 
 1. Read old data.
 2. Validate integrity.
@@ -82,6 +175,26 @@ Migration flow:
 6. Record migration log.
 
 Migration failure must not damage original data.
+
+Configuration migration on upgrade must preserve:
+
+- Config file version.
+- Compatibility with the previous config.
+- Defaults filled in for newly added fields.
+- Calibration parameters.
+- User preferences.
+- Experiment data paths.
+
+## Acceptance
+
+Configuration and data version work is not done until:
+
+- Sample data from the previous version opens.
+- Data saved by the new version reloads.
+- Configuration migrates.
+- Algorithm version is traceable.
+- Report template version is traceable.
+- A failed migration leaves the original data intact.
 
 ## Release
 
@@ -96,3 +209,10 @@ Before release:
 - Confirm offline install requirements.
 - Record manual checks and blockers.
 
+Record with the build:
+
+- Software version, as `MAJOR.MINOR.PATCH`.
+- Build timestamp.
+- Git commit.
+- Algorithm version.
+- Data format version.
