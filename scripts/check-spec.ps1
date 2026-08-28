@@ -193,34 +193,45 @@ if ([string]::IsNullOrWhiteSpace($SkillValidatorPath)) {
 }
 
 if (-not [string]::IsNullOrWhiteSpace($SkillValidatorPath)) {
-    $skillPath = Join-Path $repoRoot "skills/csharp-winforms-wpf"
+    $skillsRoot = Join-Path $repoRoot "skills"
+    $skillPaths = @()
+    if (Test-Path -LiteralPath $skillsRoot) {
+        $skillPaths = @(Get-ChildItem -LiteralPath $skillsRoot -Directory -ErrorAction SilentlyContinue |
+            Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName "SKILL.md") } |
+            ForEach-Object { $_.FullName })
+    }
+    if ($skillPaths.Count -eq 0) {
+        Add-CheckWarning "No skills with SKILL.md found under skills/; skipped skill validation."
+    }
     $python = Get-PythonWithYaml -Preferred $PythonPath
     if ($null -eq $python) {
         Add-CheckWarning "No Python with PyYAML found; skipped skill validation. Run 'pip install pyyaml' or pass -PythonPath."
     } else {
-        $prevEap = $ErrorActionPreference
-        $ErrorActionPreference = 'Continue'
-        try {
-            $validatorOutput = & $python $SkillValidatorPath $skillPath 2>&1
-            $validatorExit = $LASTEXITCODE
-        } finally {
-            $ErrorActionPreference = $prevEap
-        }
-        if ($validatorExit -ne 0) {
-            # Take the message off each record; Out-String would drag in
-            # CategoryInfo/FullyQualifiedErrorId noise around the real cause.
-            $lines = @($validatorOutput | ForEach-Object {
-                if ($_ -is [System.Management.Automation.ErrorRecord]) {
-                    $_.Exception.Message
+        foreach ($skillPath in $skillPaths) {
+            $prevEap = $ErrorActionPreference
+            $ErrorActionPreference = 'Continue'
+            try {
+                $validatorOutput = & $python $SkillValidatorPath $skillPath 2>&1
+                $validatorExit = $LASTEXITCODE
+            } finally {
+                $ErrorActionPreference = $prevEap
+            }
+            if ($validatorExit -ne 0) {
+                # Take the message off each record; Out-String would drag in
+                # CategoryInfo/FullyQualifiedErrorId noise around the real cause.
+                $lines = @($validatorOutput | ForEach-Object {
+                    if ($_ -is [System.Management.Automation.ErrorRecord]) {
+                        $_.Exception.Message
+                    } else {
+                        $_.ToString()
+                    }
+                } | Where-Object { $_ -and $_.Trim() })
+                $detail = ($lines -join "`n  ").Trim()
+                if ($detail) {
+                    Add-CheckError "Skill validation failed: $skillPath`n  $detail"
                 } else {
-                    $_.ToString()
+                    Add-CheckError "Skill validation failed: $skillPath (exit $validatorExit)"
                 }
-            } | Where-Object { $_ -and $_.Trim() })
-            $detail = ($lines -join "`n  ").Trim()
-            if ($detail) {
-                Add-CheckError "Skill validation failed: $skillPath`n  $detail"
-            } else {
-                Add-CheckError "Skill validation failed: $skillPath (exit $validatorExit)"
             }
         }
     }

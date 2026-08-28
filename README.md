@@ -27,7 +27,7 @@ checklists/  审计和接入检查清单
 scripts/     安装和自检脚本
 examples/    可参考的 harness 示例
 evals/       skill 和 harness 评估任务
-skills/      专项 Codex skills 草案
+skills/      专项 skills：领域实现规范与设计方法论
 ```
 
 ## 建议阅读顺序
@@ -197,6 +197,15 @@ powershell -ExecutionPolicy Bypass -File .\scripts\upgrade-harness.ps1 -TargetPa
 powershell -ExecutionPolicy Bypass -File .\scripts\upgrade-harness.ps1 -TargetPath "D:\path\to\project" -ApplyMissing
 ```
 
+### 两个 skill 的分工
+
+| Skill | 回答的问题 | 边界 |
+| --- | --- | --- |
+| `instrument-ui-design` | 界面**为什么**这样组织：信息架构、状态与风险建模、低保真 wireframe、交互规格、设计评审 | 不产出 XAML/MVVM/token 值/线程/设备抽象 |
+| `csharp-winforms-wpf` | 界面**怎么实现**：WPF MVVM、WinForms MVP、Designer 安全、DPI 策略、主题 token、设备边界、验收 | 不做信息架构和设计评审 |
+
+设计 skill 在 Gate 1 通过后按项目 UI 框架交接给实现 skill，交接内容见 `skills/instrument-ui-design/references/implementation-handoff.md`。两者不互相复述规则；同一条规则只应存在于其中一处。
+
 ### 安装 Codex Skill
 
 先预览安装：
@@ -209,6 +218,18 @@ powershell -ExecutionPolicy Bypass -File .\scripts\install-codex-skill.ps1 -DryR
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\install-codex-skill.ps1
+```
+
+安装 `instrument-ui-design`：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-codex-skill.ps1 -SkillName instrument-ui-design
+```
+
+安装到 Claude Code 时，把 `-CodexHome` 指向 `.claude`：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install-codex-skill.ps1 -SkillName instrument-ui-design -CodexHome "$env:USERPROFILE\.claude"
 ```
 
 默认安装到：

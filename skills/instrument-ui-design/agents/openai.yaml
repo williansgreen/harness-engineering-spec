@@ -1,0 +1,4 @@
+interface:
+  display_name: "Instrument UI Design"
+  short_description: "Design and review instrument UI from project evidence"
+  default_prompt: "Use $instrument-ui-design to turn this instrument project context into a reviewable UI design."

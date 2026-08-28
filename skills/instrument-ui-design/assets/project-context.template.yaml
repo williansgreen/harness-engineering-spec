@@ -1,0 +1,111 @@
+schema_version: 1
+
+project:
+  name: ""
+  product_scope: ""
+  design_scope: ""
+  owners: []
+
+evidence:
+  sources: []
+  # - id: E-001
+  #   type: procedure | interview | requirement | risk_analysis | telemetry | issue | screenshot | code | observation
+  #   location: ""
+  #   owner: ""
+  #   confidence: high | medium | low
+
+users:
+  primary_roles: []
+  secondary_roles: []
+  operating_conditions:
+    attention_load: ""
+    training_level: ""
+    gloves_or_touch: false
+    viewing_distance: ""
+    environment_notes: ""
+
+workflow:
+  dominant_shape: single_measurement | continuous_process | batch_sequence | exploratory_live_tuning | hybrid
+  primary_tasks: []
+  stages: []
+  completion_definition: ""
+  interruption_and_recovery: []
+
+terminology:
+  device_terms: []
+  parameter_terms: []
+  prohibited_or_ambiguous_terms: []
+
+states:
+  connection: []
+  device: []
+  workflow: []
+  data: []
+  alarm: []
+  persistence: []
+
+data:
+  primary_outputs: []
+  live_values: []
+  freshness_rules: []
+  units_and_ranges: []
+  save_export_traceability: []
+
+alarms:
+  sources: []
+  priorities: []
+  acknowledgement_rules: []
+  required_user_responses: []
+
+risk:
+  risk_ceiling: R0 | R1 | R2 | R3 | unknown
+  critical_actions: []
+  # - id: terminate_run
+  #   label: ""
+  #   valid_states: []
+  #   consequence_if_wrong: ""
+  #   consequence_if_interrupted: ""
+  #   level: R0 | R1 | R2 | R3 | unknown
+  #   reversible: false
+  #   recovery: ""
+  #   detectability: ""
+  #   frequency: ""
+  #   time_pressure: ""
+  #   authorization: ""
+  #   audit: ""
+  #   non_ui_safeguards: []
+
+display:
+  default_window: ""
+  minimum_window: ""
+  scaling_targets: []
+  languages: []
+  input_methods: []
+  multi_monitor: false
+
+design_system:
+  source_paths: []
+  existing_components: []
+  token_sources: []
+  icon_and_chart_sources: []
+  constraints: []
+
+ui_implementation:
+  ui_framework: wpf | winforms | other
+  target_framework: ""
+  source_paths: []
+  relevant_existing_views: []
+  implementation_skill: csharp-winforms-wpf
+
+assumptions: []
+open_questions: []
+
+approvals:
+  wireframe:
+    result: pending
+    approver: ""
+    date: ""
+    artifact_revision: ""
+    accepted_assumptions: []
+    open_findings: []
+
